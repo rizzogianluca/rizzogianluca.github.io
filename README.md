@@ -1,4 +1,4 @@
-# gianlucarizzo75.github.io
+# rizzogianluca.github.io
 
 Personal academic website of Gianluca Rizzo (static HTML, GitHub Pages).
 
