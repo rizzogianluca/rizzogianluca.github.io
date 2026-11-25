@@ -1,0 +1,46 @@
+/* VOICE: a researcher's homepage — calm, exact, easy to scan.
+   IDEA: the title page of a journal article: name, affiliations, abstract-like research statement.
+   PICTURE: the portrait beside the contact block, with research themes set as a clean list.
+   COLOUR and TYPE: white, ink #14110f, ultramarine #1d2bd8, cool grey; night #0d0e18. Spectral titles, Inter text.
+   LAYOUT: one reading column up to 980px; header with name and navigation; stacks under 700px. */
+:root{color-scheme:light dark;--bg:light-dark(#fff,#0d0e18);--ink:light-dark(#14110f,#e9e9f2);--mut:light-dark(#5d6170,#9aa0b4);--line:light-dark(#e3e5ec,#262a3d);--soft:light-dark(#f3f4f8,#151829);--acc:light-dark(#1d2bd8,#8d96ff)}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Inter,system-ui,sans-serif;overflow-x:clip}
+a{color:var(--acc);text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+.wrap{max-width:980px;margin:0 auto;padding:0 max(5vw,18px)}
+header.site{border-bottom:1px solid var(--line)}
+header.site .wrap{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;padding-top:22px;padding-bottom:16px}
+.brand{font:500 24px/1.1 Spectral,Georgia,serif;color:var(--ink);text-decoration:none}
+nav ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 20px}
+nav a{color:var(--mut);text-decoration:none;font-size:15px;font-weight:500;padding:6px 0;display:inline-block}
+nav a[aria-current=page],nav a:hover{color:var(--ink);box-shadow:inset 0 -2px 0 var(--acc)}
+main{padding:clamp(28px,5vw,56px) 0 64px}
+h1,h2{font-family:Spectral,Georgia,serif;font-weight:500;line-height:1.08;text-wrap:balance;margin:0 0 14px}
+h1{font-size:clamp(34px,5vw,48px)}
+h2{font-size:26px;margin-top:44px}
+.lede{font-size:19px;max-width:66ch;color:var(--ink)}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:40px;align-items:start}
+.portrait{width:100%;aspect-ratio:938/849;object-fit:cover;border-radius:14px;background:var(--soft);display:block}
+.aff{display:grid;gap:14px;margin:24px 0 0;padding:0;list-style:none}
+.aff li{border-left:3px solid var(--acc);padding:2px 0 2px 14px}
+.aff strong{display:block;font-weight:600}
+.aff span{color:var(--mut);font-size:15px}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.links a{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ink);font-size:15px;font-weight:500}
+.links a:hover{border-color:var(--acc)}
+.themes{columns:2 280px;column-gap:32px;padding-left:20px}
+.themes li{margin:0 0 8px;break-inside:avoid}
+.news{border-top:1px solid var(--line)}
+.news div{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.news time{color:var(--mut);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pubs{padding:0;list-style:none}
+.pubs li{padding:14px 0;border-bottom:1px solid var(--line)}
+.pubs .t{font-weight:600}
+.pubs .m{color:var(--mut);font-size:15px}
+.note{color:var(--mut);font-size:14px}
+footer{border-top:1px solid var(--line);color:var(--mut);font-size:14px}
+footer .wrap{padding-top:18px;padding-bottom:28px}
+@media(max-width:700px){.hero{grid-template-columns:minmax(0,1fr)}.hero figure{order:-1;max-width:240px}.news div{grid-template-columns:minmax(0,1fr);gap:2px}}
+figure{margin:0}
