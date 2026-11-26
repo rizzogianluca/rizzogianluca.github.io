@@ -343,44 +343,74 @@ def teaching():
 """
 
 
-STUDENT_TOPICS = [
-    # (title, description, levels)
-    ("Moving networks", "Simulate or optimise vehicles and drones acting as mobile base stations in a city: where should they go, and when do they save energy or capacity?", "Bachelor · Master · PhD"),
-    ("Sustainable 6G", "Measure and reduce the energy footprint of 6G network functions and orchestration, from models to testbed experiments.", "Master · PhD"),
-    ("Wireless power for IoT", "Model and evaluate networks that power battery-less IoT devices wirelessly (SWIPT), using stochastic geometry and simulation.", "Master · PhD"),
-    ("Learning without servers", "Implement and evaluate gossip learning among phones or IoT devices, and study when cooperation between devices pays off.", "Bachelor · Master · PhD"),
-    ("Teams of autonomous agents", "Design decentralised planning algorithms for groups of drones or robots that must keep working when some members fail.", "Master · PhD"),
-    ("Opportunistic communication", "Build or analyse apps that share information locally between nearby devices, for example after a disaster when the network is down.", "Bachelor · Master"),
-]
-
+# Bachelor, Master and PhD projects. Ongoing projects are listed by topic only (no student names) for BSc/MSc;
+# PhD students appear on the People page. Source: Notion (student status page, research ideas, PhD position texts), Nov 2026.
 LEVELS = [
-    ("bachelor", "Bachelor projects",
-     "Bachelor's theses and final projects for students of Computer Science at the Università di Torino and of Business Information Technology at HES-SO Valais-Wallis. "
-     "A Bachelor project typically focuses on implementation, simulation or measurement: building a prototype, extending a simulator, or running experiments on a testbed, "
-     "with a clear and achievable goal for the duration of the thesis."),
-    ("master", "Master projects",
-     "Master's theses and semester projects for students of the Master's degree in Computer Science at the Università di Torino and for students from partner universities. "
-     "A Master project tackles an open research question: it combines a model or an algorithm with its evaluation, and strong theses often lead to a publication at an international conference."),
-    ("phd", "PhD projects",
-     "PhD positions are funded through research projects at the Università di Torino and at HES-SO Valais-Wallis, often in collaboration with European partners. "
-     "Candidates should hold (or be about to obtain) a Master's degree in computer science, electrical or telecommunications engineering, or a related field, "
-     "with a solid background in networking, probability or machine learning. Open positions are announced on this site and on LinkedIn; spontaneous applications from strong candidates are welcome."),
+    {"id": "bachelor", "title": "Bachelor projects",
+     "intro": "Bachelor's theses and final internships for students of Computer Science at the Università di Torino and of Business Information "
+              "Technology at HES-SO Valais-Wallis. A Bachelor project typically focuses on implementation, simulation or measurement, with a clear "
+              "and achievable goal for the duration of the thesis.",
+     "ongoing": [
+         ("Urban mobile network performance simulator", "Università di Torino · Bachelor thesis"),
+         ("Mapping CAN/CAN-FD in-vehicle traffic onto Time-Sensitive Networking (TSN) while preserving its timing requirements", "Università di Torino · internship and thesis"),
+         ("Carbon- and cost-aware energy accounting for edge data centres, with an industrial partner of UNITY-6G", "Università di Torino · internship and thesis, starting"),
+     ],
+     "open_title": "Open topics",
+     "open": [
+         ("Road-ice monitoring with sensors on buses", "Collect and analyse road-surface data from sensors on public buses over LoRaWAN or NB-IoT, as a basis for winter road-safety services."),
+         ("Gossip learning on real devices", "Implement serverless distributed learning on phones or Raspberry Pis and measure accuracy, energy and traffic."),
+         ("Opportunistic information sharing for emergencies", "Build or evaluate an app that shares information between nearby devices when the network is down."),
+     ]},
+    {"id": "master", "title": "Master projects",
+     "intro": "Master's theses and semester projects for students of the Master's degree in Computer Science at the Università di Torino and for "
+              "students from partner universities. A Master project tackles an open research question, combining a model or an algorithm with its "
+              "evaluation; strong theses often lead to a publication at an international conference.",
+     "ongoing": [
+         ("Moving base stations in a realistic urban scenario (SUMO, Luxembourg LuST traffic model)", "Università di Torino · thesis co-supervised with TU Berlin"),
+     ],
+     "open_title": "Open topics",
+     "open": [
+         ("Age of information in IoT networks", "Mean-field models of how fresh the information spread by gossip is in large IoT deployments."),
+         ("Handovers at scale", "Mean-field approximations to compute handover rates and their cost in dense, mobile networks."),
+         ("Performance guarantees for distributed learning", "Use network calculus to bound the delay and convergence of distributed and federated learning algorithms."),
+         ("Communication-efficient federated and gossip learning", "Compress models and updates to cut traffic and energy while keeping accuracy."),
+         ("LEO satellites for emergency communications", "Stochastic geometry models of low-Earth-orbit satellite networks to choose energy-optimal transmit powers."),
+         ("Wireless power for vehicles and IoT", "Assess wireless power transfer to battery-less sensors and vehicles: coverage, energy and cost."),
+         ("Economics of edge computing", "Cost models to decide where and when operators should deploy edge (MEC) resources."),
+     ]},
+    {"id": "phd", "title": "PhD projects",
+     "intro": "PhD positions are funded through research projects at the Università di Torino and at HES-SO Valais-Wallis, often jointly with "
+              "partner universities. Candidates should hold (or be about to obtain) a Master's degree in computer science, electrical or "
+              "telecommunications engineering, or a related field, with a solid background in networking, probability or machine learning. "
+              "Open positions are announced on this site and on LinkedIn; spontaneous applications from strong candidates are welcome.",
+     "ongoing": [
+         ("Moving networks: vehicles as mobile base stations in urban radio access networks", "Laura Finarelli · HES-SO, with TU Berlin"),
+         ("Energy-aware orchestration and digital twins for sustainable 6G networks", "Berk Buzcu · HES-SO, within UNITY-6G"),
+     ],
+     "open_title": "Past PhD positions",
+     "open": [
+         ("6G wireless communications", "PhD student / research assistant at HES-SO Valais-Wallis, 2024."),
+         ("Drone-based 6G communications", "PhD position at HES-SO Valais-Wallis, 2022."),
+         ("Energy-efficient network management and planning", "PhD at EPFL, co-supervised with Prof. Catherine Dehollain, 2020."),
+     ]},
 ]
 
 
 def student_projects():
-    toc = "".join(f'<li><a href="#{i}">{t}</a></li>' for i, t, _ in LEVELS)
-    levels = "".join(f'<section id="{i}"><h2>{t}</h2><p>{E(d)}</p></section>' for i, t, d in LEVELS)
-    topics = "".join(f'<article class="proj"><h3>{E(t)}</h3><p class="t">{E(d)}</p><p class="m">{E(l)}</p></article>' for t, d, l in STUDENT_TOPICS)
+    toc = "".join(f'<li><a href="#{l["id"]}">{l["title"]}</a></li>' for l in LEVELS)
+    secs = []
+    for l in LEVELS:
+        ongoing = "".join(f'<li><strong>{E(t)}</strong><span>{E(n)}</span></li>' for t, n in l["ongoing"])
+        cards = "".join(f'<article class="proj"><h4>{E(t)}</h4><p class="t">{E(d)}</p></article>' for t, d in l["open"])
+        secs.append(f'<section class="level" id="{l["id"]}"><h2>{l["title"]}</h2><p>{E(l["intro"])}</p>'
+                    f'<h3>Ongoing</h3><ul class="ongoing">{ongoing}</ul>'
+                    f'<h3>{l["open_title"]}</h3><div class="projs">{cards}</div></section>')
     return f"""<h1>Bachelor, Master and PhD projects</h1>
-<p class="lede">I supervise Bachelor's and Master's theses, semester projects and PhD students at the Università di Torino and at HES-SO Valais-Wallis. Projects are linked to my <a href="research.html">research</a> and often to ongoing <a href="projects.html">funded projects</a> with European partners.</p>
-<nav class="toc" aria-label="Levels"><ul>{toc}<li><a href="#topics">Example topics</a></li><li><a href="#apply">How to apply</a></li></ul></nav>
-{levels}
-<section id="topics"><h2>Example topics</h2>
-<p>Each topic can be shaped to the level of the project, with more emphasis on implementation or on modelling depending on your interests.</p>
-<div class="projs">{topics}</div></section>
+<p class="lede">I supervise Bachelor's and Master's theses, internships and PhD students at the Università di Torino and at HES-SO Valais-Wallis. Projects are linked to my <a href="research.html">research</a> and often to ongoing <a href="projects.html">funded projects</a> with European partners.</p>
+<nav class="toc" aria-label="Levels"><ul>{toc}<li><a href="#apply">How to apply</a></li></ul></nav>
+{"".join(secs)}
 <section id="apply"><h2>How to apply</h2>
-<p>Write to me by email with your CV, your transcript of records, the level of project you are looking for (Bachelor, Master or PhD) and a few lines on the topic or kind of work that interests you. Useful background: computer networks, probability, and programming in Python or C/C++.</p></section>
+<p>Write to me by email with your CV, your transcript of records, the level of project you are looking for (Bachelor, Master or PhD) and a few lines on the topic or kind of work that interests you. Open topics are starting points: we shape the final project together. Useful background: computer networks, probability, and programming in Python or C/C++.</p></section>
 <h2>Resources for students</h2>
 <ul class="plain"><li><a href="https://leboudec.github.io/leboudec/resources/paper.html">How to write a paper</a>, by Jean-Yves Le Boudec</li></ul>
 """
