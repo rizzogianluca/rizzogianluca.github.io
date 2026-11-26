@@ -40,6 +40,8 @@ NAV = [("index.html", "Home"), ("research.html", "Research"), ("projects.html", 
        ("publications.html", "Publications"), ("teaching.html", "Teaching"),
        ("student-projects.html", "Bachelor, Master &amp; PhD projects"), ("people.html", "People"), ("cv.html", "CV")]
 CV_PDF = "cv.pdf"
+import hashlib as _h
+CSS_VER = _h.md5((ROOT / "style.css").read_bytes()).hexdigest()[:8]
 
 PROFILES = [("Google Scholar", "https://scholar.google.com/citations?user=NzZ5dd8AAAAJ"),
             ("dblp", "https://dblp.org/pid/71/3141"),
@@ -89,7 +91,7 @@ def page(fname, title, desc, body, jsonld=None, current=None):
 <meta property="og:url" content="{url}"><meta property="og:image" content="{BASE}portrait.jpg"><meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">{ld}</head><body>
+<link rel="stylesheet" href="style.css?v={CSS_VER}">{ld}</head><body>
 <a class="skip" href="#content">Skip to content</a>
 <header class="site"><div class="wrap"><a class="brand" href="index.html">{ME}</a><button class="menu" type="button" aria-expanded="false" aria-controls="nav"><span aria-hidden="true"></span>Menu</button><nav id="nav" aria-label="Main"><ul>{nav}</ul></nav></div></header>
 <script>document.querySelector('.menu').addEventListener('click',e=>{{const b=e.currentTarget,n=document.getElementById('nav'),o=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',String(o));n.classList.toggle('open',o)}})</script>
