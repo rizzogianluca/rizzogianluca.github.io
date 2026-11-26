@@ -1,2 +1,5 @@
 User-agent: *
 Disallow: /network/
+Disallow: /src/
+
+Sitemap: https://rizzogianluca.github.io/sitemap.xml
