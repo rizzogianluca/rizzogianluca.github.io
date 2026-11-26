@@ -46,6 +46,19 @@ PROFILES = [("Google Scholar", "https://scholar.google.com/citations?user=NzZ5dd
             ("ORCID", "https://orcid.org/0000-0001-7129-4972"),
             ("LinkedIn", "https://www.linkedin.com/in/gianlucarizzo")]
 
+# Institutional pages and groups
+INST = {
+    "unito": "https://www.unito.it",
+    "unito_dept": "https://informatica.unito.it",
+    "unito_me": "https://informatica.unito.it/persone/gianluca.rizzo",
+    "hevs": "https://www.hevs.ch/en",
+    "hevs_inst": "https://www.hevs.ch/en/applied-research/research-institute-informatics/",
+    "hevs_me": "https://www.hevs.ch/en/collaborateurs/rizzo-1750",
+    "hesso_people": "https://people.hes-so.ch/en/profile/2581691189-gianluca-rizzo",
+    "hcai": "https://www.hevs.ch/en/applied-research/research-institute-informatics/appitech-lab/",
+    "conex": "https://hevs.ch/en/minisites/projects-products/conex-lab",
+}
+
 PERSON = {
     "@context": "https://schema.org", "@type": "Person", "name": ME,
     "url": BASE, "image": BASE + "portrait.jpg",
@@ -58,7 +71,7 @@ PERSON = {
     "email": [f"mailto:{EM['unito']}", f"mailto:{EM['hevs']}"],
     "knowsAbout": ["6G networks", "Wireless networks", "Edge computing", "Gossip learning",
                    "Performance evaluation", "Stochastic geometry", "Network calculus"],
-    "sameAs": [u for _, u in PROFILES],
+    "sameAs": [u for _, u in PROFILES] + [INST["unito_me"], INST["hevs_me"], INST["hesso_people"]],
 }
 
 
@@ -83,7 +96,7 @@ def page(fname, title, desc, body, jsonld=None, current=None):
 <main id="content"><div class="wrap">
 {body}
 </div></main>
-<footer><div class="wrap"><span>© {TODAY.year} {ME} · {MAIL['unito']} · {MAIL['hevs']}</span><span>Last updated {TODAY.day} {TODAY.strftime('%B %Y')}</span></div></footer>
+<footer><div class="wrap"><span>© {TODAY.year} {ME} · {MAIL['unito']} · {MAIL['hevs']} · <a href="{INST['unito_me']}">UniTo page</a> · <a href="{INST['hevs_me']}">HES-SO page</a></span><span>Last updated {TODAY.day} {TODAY.strftime('%B %Y')}</span></div></footer>
 </body></html>
 """
 
@@ -165,7 +178,7 @@ NEWS = [
     ("2026-03", "I was General Chair of <a href=\"https://2026.wons-conference.org/\">IEEE WONS 2026</a>, held in Crans-Montana, Switzerland, on 2–4 March."),
     ("2025-11", "Best Paper Award runner-up at <a href=\"https://www.ieee-smartiot.org\">IEEE SmartIoT 2025</a> (Sydney) for our paper on <a href=\"https://doi.org/10.1109/SmartIoT66867.2025.00014\">energy-aware load shifting in SWIPT IoT networks</a>."),
     ("2025-01", "Start of the Horizon Europe project <a href=\"https://unity-6g.eu/\">UNITY-6G</a> on sustainable, Open RAN-based 6G networks (<a href=\"projects.html#unity-6g\">more</a>)."),
-    ("2024-12", "I joined the <a href=\"https://www.di.unito.it\">Department of Computer Science</a> of the Università di Torino as Associate Professor."),
+    ("2024-12", "I joined the <a href=\"https://informatica.unito.it\">Department of Computer Science</a> of the Università di Torino as Associate Professor."),
 ]
 
 
@@ -226,8 +239,8 @@ def home(pubs):
 <p class="role">Associate Professor of Computer Science, Università di Torino<br>Senior Research Associate, HES-SO Valais-Wallis</p>
 <p class="lede">I design and analyse distributed and wireless systems: how networks, devices and learning algorithms should be organised to be efficient, sustainable and dependable. My current work focuses on energy-aware 6G networks, mobile base stations and decentralised learning at the network edge, using stochastic geometry, mean-field theory, queueing models and network calculus.</p>
 <ul class="aff">
-<li><strong>Università di Torino – Department of Computer Science</strong><span>Via Pessinetto 12, 10149 Torino, Italy · {MAIL['unito']}</span></li>
-<li><strong>HES-SO Valais-Wallis – Institute of Informatics</strong><span>Technopole 3, CH-3960 Sierre, Switzerland · {MAIL['hevs']}</span></li>
+<li><strong><a href="{INST['unito']}">Università di Torino</a> – <a href="{INST['unito_dept']}">Department of Computer Science</a></strong><span>Via Pessinetto 12, 10149 Torino, Italy · {MAIL['unito']}</span><span class="aff-links"><a href="{INST['unito_me']}">My UniTo page</a></span></li>
+<li><strong><a href="{INST['hevs']}">HES-SO Valais-Wallis</a> – <a href="{INST['hevs_inst']}">Institute of Informatics</a></strong><span>Technopole 3, CH-3960 Sierre, Switzerland · {MAIL['hevs']}</span><span class="aff-links"><a href="{INST['hevs_me']}">My HES-SO Valais page</a> · <a href="{INST['hesso_people']}">People@HES-SO profile</a> · <a href="{INST['hcai']}">Human Centered AI lab</a> (Prof. Antoine Widmer), of which I am a member · <a href="{INST['conex']}">ConEx Lab</a></span></li>
 </ul>
 <div class="links">{links}</div>
 </div>
@@ -631,8 +644,8 @@ def cv():
 
 <h2>Positions</h2>
 <table class="tbl cvt"><tbody>
-<tr><td>2024–</td><td><strong>Associate Professor of Computer Science</strong>, Università di Torino, Italy</td></tr>
-<tr><td>2013–</td><td><strong>Senior Research Associate</strong>, HES-SO Valais-Wallis, Sierre, Switzerland</td></tr>
+<tr><td>2024–</td><td><strong>Associate Professor of Computer Science</strong>, <a href="{INST['unito_dept']}">Department of Computer Science</a>, Università di Torino, Italy (<a href="{INST['unito_me']}">UniTo page</a>)</td></tr>
+<tr><td>2013–</td><td><strong>Senior Research Associate</strong>, <a href="{INST['hevs_inst']}">Institute of Informatics</a>, HES-SO Valais-Wallis, Sierre, Switzerland (<a href="{INST['hevs_me']}">HES-SO page</a>); member of the <a href="{INST['hcai']}">Human Centered AI lab</a> (Prof. Antoine Widmer); <a href="{INST['conex']}">ConEx Lab</a></td></tr>
 <tr><td>2009–</td><td><strong>Technical consultant</strong>, avionic and utility communications industry, Switzerland</td></tr>
 <tr><td>2020–2024</td><td><strong>Associate Professor of Computer Science</strong>, University of Foggia, Italy</td></tr>
 <tr><td>2009–2013</td><td><strong>Researcher</strong>, IMDEA Networks Institute, Madrid, Spain; adjunct professor at Universidad Carlos III de Madrid (2009–2011)</td></tr>

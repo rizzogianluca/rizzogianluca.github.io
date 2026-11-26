@@ -42,6 +42,8 @@ figure{margin:0}
 .aff li{border-left:3px solid var(--acc);padding:2px 0 2px 14px}
 .aff strong{display:block;font-weight:600}
 .aff span{color:var(--mut);font-size:15px}
+.aff span.aff-links{display:block;margin-top:4px}
+.aff strong a{color:inherit;text-decoration-color:var(--acc)}
 .links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
 .links a{display:inline-flex;align-items:center;min-height:42px;padding:0 16px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ink);font-size:15px;font-weight:500}
 .links a:hover{border-color:var(--acc)}
