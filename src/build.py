@@ -38,7 +38,7 @@ MAIL = {k: f'<a href="mailto:{v}">{v}</a>' for k, v in EM.items()}
 
 NAV = [("index.html", "Home"), ("research.html", "Research"), ("projects.html", "Projects"),
        ("publications.html", "Publications"), ("teaching.html", "Teaching"),
-       ("student-projects.html", "Student projects"), ("people.html", "People"), ("cv.html", "CV")]
+       ("student-projects.html", "Bachelor, Master &amp; PhD projects"), ("people.html", "People"), ("cv.html", "CV")]
 CV_PDF = "cv.pdf"
 
 PROFILES = [("Google Scholar", "https://scholar.google.com/citations?user=NzZ5dd8AAAAJ"),
@@ -159,12 +159,12 @@ q.addEventListener('input',run);chips.forEach(b=>b.addEventListener('click',()=>
 
 # ---------------------------------------------------------------- content
 NEWS = [
-    ("2026-09", "“Floating Gossip: Serverless Distributed Learning in Dynamic Scenarios” is published in <i>IEEE Transactions on Mobile Computing</i>."),
-    ("2026-06", "Papers presented at ICAPS 2026 (decentralised multi-agent planning) and EuCNC &amp; 6G Summit 2026 (UNITY-6G architecture)."),
-    ("2026-03", "I was General Chair of IEEE WONS 2026, held in Crans-Montana, Switzerland, on 2–4 March."),
-    ("2025-11", "Best Paper Award runner-up at IEEE SmartIoT 2025 (Sydney) for our work on energy-aware load shifting in SWIPT IoT networks."),
-    ("2025-01", "Start of the Horizon Europe project <a href=\"projects.html#unity-6g\">UNITY-6G</a> on sustainable, Open RAN-based 6G networks."),
-    ("2024-12", "I joined the Department of Computer Science of the Università di Torino as Associate Professor."),
+    ("2026-09", "<a href=\"https://doi.org/10.1109/TMC.2026.3682564\">“Floating Gossip: Serverless Distributed Learning in Dynamic Scenarios”</a> is published in <i>IEEE Transactions on Mobile Computing</i>."),
+    ("2026-06", "Papers presented at ICAPS 2026 on <a href=\"https://doi.org/10.1609/icaps.v36i1.42854\">robust decentralised multi-agent planning</a> and at EuCNC &amp; 6G Summit 2026 on the <a href=\"https://doi.org/10.1109/EuCNC/6GSummit68295.2026.11577429\">UNITY-6G architecture</a>."),
+    ("2026-03", "I was General Chair of <a href=\"https://2026.wons-conference.org/\">IEEE WONS 2026</a>, held in Crans-Montana, Switzerland, on 2–4 March."),
+    ("2025-11", "Best Paper Award runner-up at <a href=\"https://www.ieee-smartiot.org\">IEEE SmartIoT 2025</a> (Sydney) for our paper on <a href=\"https://doi.org/10.1109/SmartIoT66867.2025.00014\">energy-aware load shifting in SWIPT IoT networks</a>."),
+    ("2025-01", "Start of the Horizon Europe project <a href=\"https://unity-6g.eu/\">UNITY-6G</a> on sustainable, Open RAN-based 6G networks (<a href=\"projects.html#unity-6g\">more</a>)."),
+    ("2024-12", "I joined the <a href=\"https://www.di.unito.it\">Department of Computer Science</a> of the Università di Torino as Associate Professor."),
 ]
 
 
@@ -238,7 +238,7 @@ def home(pubs):
 <h2>News</h2>
 <div class="news">{news}</div>
 <aside class="callout"><h2>Prospective students</h2>
-<p>I supervise Bachelor's, Master's and PhD projects at the Università di Torino and at HES-SO Valais-Wallis on 6G networks, edge learning and network performance modelling. <a href="student-projects.html">See student projects →</a></p></aside>
+<p>I supervise Bachelor's, Master's and PhD projects at the Università di Torino and at HES-SO Valais-Wallis on 6G networks, edge learning and network performance modelling. <a href="student-projects.html">See Bachelor, Master and PhD projects →</a></p></aside>
 """
 
 
@@ -279,17 +279,21 @@ EU_FLAG = ('<svg class="euflag" viewBox="0 0 30 20" role="img" aria-label="Flag 
                      f'font-size="3.4" fill="#fc0" text-anchor="middle">★</text>' for k in range(12)) + '</svg>')
 
 
+PROJECT_URLS = {"unity-6g": "https://unity-6g.eu/"}
+
+
 def projects():
     def card(p):
         i, acr, title, funder, role, years, _ = p
-        return (f'<article class="proj" id="{i}"><h3>{acr} <span class="note">{years}</span></h3><p class="t">{E(title)}</p>'
+        name = f'<a href="{PROJECT_URLS[i]}">{acr}</a>' if i in PROJECT_URLS else acr
+        return (f'<article class="proj" id="{i}"><h3>{name} <span class="note">{years}</span></h3><p class="t">{E(title)}</p>'
                 f'<p class="m">{E(funder)} · {role}</p></article>')
     cur = "".join(card(p) for p in PROJECTS if p[6])
     past = "".join(card(p) for p in PROJECTS if not p[6])
     return f"""<h1>Projects</h1>
 <p class="lede">Funded research projects I lead or have taken part in. I regularly prepare Horizon Europe and national proposals and welcome contacts from potential partners.</p>
 <h2>Current</h2><div class="projs">{cur}</div>
-<div class="ack">{EU_FLAG}<p>UNITY-6G has received funding from the Smart Networks and Services Joint Undertaking (SNS JU) under the European Union's Horizon Europe research and innovation programme.</p></div>
+<div class="ack">{EU_FLAG}<p>UNITY-6G has received funding from the Smart Networks and Services Joint Undertaking (SNS JU) under the European Union's Horizon Europe research and innovation programme (grant agreement No 101192650) and from the Swiss State Secretariat for Education, Research and Innovation (SERI).</p></div>
 <h2>Completed</h2><div class="projs">{past}</div>
 """
 
@@ -335,35 +339,48 @@ def teaching():
 <tr class="grp"><th colspan="3">Current</th></tr>{cur}
 <tr class="grp"><th colspan="3">Earlier</th></tr>{past}
 </tbody></table>
-<p class="more">Looking for a thesis or a project? See <a href="student-projects.html">student projects</a>.</p>
+<p class="more">Looking for a thesis or a project? See <a href="student-projects.html">Bachelor, Master and PhD projects</a>.</p>
 """
 
 
 STUDENT_TOPICS = [
-    ("Moving networks", "Simulate or optimise vehicles and drones acting as mobile base stations in a city: where should they go, and when do they save energy or capacity?"),
-    ("Sustainable 6G", "Measure and reduce the energy footprint of 6G network functions and orchestration, from models to testbed experiments."),
-    ("Wireless power for IoT", "Model and evaluate networks that power battery-less IoT devices wirelessly (SWIPT), using stochastic geometry and simulation."),
-    ("Learning without servers", "Implement and evaluate gossip learning among phones or IoT devices, and study when cooperation between devices pays off."),
-    ("Teams of autonomous agents", "Design decentralised planning algorithms for groups of drones or robots that must keep working when some members fail."),
-    ("Opportunistic communication", "Build or analyse apps that share information locally between nearby devices, for example after a disaster when the network is down."),
+    # (title, description, levels)
+    ("Moving networks", "Simulate or optimise vehicles and drones acting as mobile base stations in a city: where should they go, and when do they save energy or capacity?", "Bachelor · Master · PhD"),
+    ("Sustainable 6G", "Measure and reduce the energy footprint of 6G network functions and orchestration, from models to testbed experiments.", "Master · PhD"),
+    ("Wireless power for IoT", "Model and evaluate networks that power battery-less IoT devices wirelessly (SWIPT), using stochastic geometry and simulation.", "Master · PhD"),
+    ("Learning without servers", "Implement and evaluate gossip learning among phones or IoT devices, and study when cooperation between devices pays off.", "Bachelor · Master · PhD"),
+    ("Teams of autonomous agents", "Design decentralised planning algorithms for groups of drones or robots that must keep working when some members fail.", "Master · PhD"),
+    ("Opportunistic communication", "Build or analyse apps that share information locally between nearby devices, for example after a disaster when the network is down.", "Bachelor · Master"),
+]
+
+LEVELS = [
+    ("bachelor", "Bachelor projects",
+     "Bachelor's theses and final projects for students of Computer Science at the Università di Torino and of Business Information Technology at HES-SO Valais-Wallis. "
+     "A Bachelor project typically focuses on implementation, simulation or measurement: building a prototype, extending a simulator, or running experiments on a testbed, "
+     "with a clear and achievable goal for the duration of the thesis."),
+    ("master", "Master projects",
+     "Master's theses and semester projects for students of the Master's degree in Computer Science at the Università di Torino and for students from partner universities. "
+     "A Master project tackles an open research question: it combines a model or an algorithm with its evaluation, and strong theses often lead to a publication at an international conference."),
+    ("phd", "PhD projects",
+     "PhD positions are funded through research projects at the Università di Torino and at HES-SO Valais-Wallis, often in collaboration with European partners. "
+     "Candidates should hold (or be about to obtain) a Master's degree in computer science, electrical or telecommunications engineering, or a related field, "
+     "with a solid background in networking, probability or machine learning. Open positions are announced on this site and on LinkedIn; spontaneous applications from strong candidates are welcome."),
 ]
 
 
 def student_projects():
-    topics = "".join(f'<article class="proj"><h3>{E(t)}</h3><p class="t">{E(d)}</p></article>' for t, d in STUDENT_TOPICS)
-    return f"""<h1>Student projects</h1>
-<p class="lede">I supervise Bachelor's and Master's theses, semester projects and internships at the Università di Torino and at HES-SO Valais-Wallis, and PhD students in networking and distributed systems. Projects are linked to my <a href="research.html">research</a> and often to ongoing <a href="projects.html">funded projects</a> with European partners.</p>
-<h2>Example topics</h2>
-<p>Each topic can be shaped into a Bachelor's, Master's or PhD project, with more emphasis on implementation or on modelling depending on your interests.</p>
-<div class="projs">{topics}</div>
-<h2>What you will do</h2>
-<ul class="plain">
-<li>Work on an open research question with a clear, achievable scope.</li>
-<li>Combine analytical models, simulation, machine learning or prototyping, depending on the project.</li>
-<li>Collaborate with PhD students and, where possible, with partners in European projects; strong theses can lead to a publication.</li>
-</ul>
-<h2>How to apply</h2>
-<p>Write to me by email with your CV, your transcript of records and a few lines on the topic or kind of work that interests you. Useful background: computer networks, probability, and programming in Python or C/C++.</p>
+    toc = "".join(f'<li><a href="#{i}">{t}</a></li>' for i, t, _ in LEVELS)
+    levels = "".join(f'<section id="{i}"><h2>{t}</h2><p>{E(d)}</p></section>' for i, t, d in LEVELS)
+    topics = "".join(f'<article class="proj"><h3>{E(t)}</h3><p class="t">{E(d)}</p><p class="m">{E(l)}</p></article>' for t, d, l in STUDENT_TOPICS)
+    return f"""<h1>Bachelor, Master and PhD projects</h1>
+<p class="lede">I supervise Bachelor's and Master's theses, semester projects and PhD students at the Università di Torino and at HES-SO Valais-Wallis. Projects are linked to my <a href="research.html">research</a> and often to ongoing <a href="projects.html">funded projects</a> with European partners.</p>
+<nav class="toc" aria-label="Levels"><ul>{toc}<li><a href="#topics">Example topics</a></li><li><a href="#apply">How to apply</a></li></ul></nav>
+{levels}
+<section id="topics"><h2>Example topics</h2>
+<p>Each topic can be shaped to the level of the project, with more emphasis on implementation or on modelling depending on your interests.</p>
+<div class="projs">{topics}</div></section>
+<section id="apply"><h2>How to apply</h2>
+<p>Write to me by email with your CV, your transcript of records, the level of project you are looking for (Bachelor, Master or PhD) and a few lines on the topic or kind of work that interests you. Useful background: computer networks, probability, and programming in Python or C/C++.</p></section>
 <h2>Resources for students</h2>
 <ul class="plain"><li><a href="https://leboudec.github.io/leboudec/resources/paper.html">How to write a paper</a>, by Jean-Yves Le Boudec</li></ul>
 """
@@ -428,17 +445,23 @@ def people():
 <p class="lede">PhD students and postdoctoral researchers I supervise or have supervised.</p>
 <h2>Current</h2><ul class="people">{li(PEOPLE_CURRENT)}</ul>
 <h2>Alumni</h2><ul class="people">{li(PEOPLE_ALUMNI, dr=True)}</ul>
-<aside class="callout"><h2>Join</h2><p>Open positions are announced here and on LinkedIn. For theses and projects, see <a href="student-projects.html">student projects</a>.</p></aside>
+<aside class="callout"><h2>Join</h2><p>Open positions are announced here and on LinkedIn. For theses and projects, see <a href="student-projects.html">Bachelor, Master and PhD projects</a>.</p></aside>
 """
 
 
 def cv():
-    org = [("General Chair", "IEEE WONS 2026"), ("Track Chair", "IEEE FINE 2026"), ("Chair", "IEEE RNDM 2024"),
-           ("Symposium Chair (Edge Computing, Cloud Computing and Big Data)", "IEEE ICNC 2024"),
-           ("Organiser", "9th AI Valais/Wallis workshop “Human-AI Teaming”, 2024"),
-           ("Track Chair (IoT and Smart Connected Communities)", "IEEE GLOBECOM 2020"),
-           ("General Chair", "IEEE CCAuto 2020, IEEE MobileEdgeCom 2019, IEEE AUTO5G 2018–2019, IEEE EdgeCom 2016–2018, IEEE E2IoT 2015"),
-           ("General Chair", "2nd IMDEA Workshop on Energy Efficiency and Networking, 2010")]
+    org = [("General Chair", "IEEE WONS 2026", "https://2026.wons-conference.org/"),
+           ("Track Chair", "IEEE FINE 2026", "https://www.ieee-fine.org/2026/"),
+           ("Chair", "IEEE RNDM 2024 – International Workshop on Resilient Networks Design and Modeling", "http://www.rndm.pl/2024/"),
+           ("Symposium Chair (Edge Computing, Cloud Computing and Big Data)", "IEEE ICNC 2024", "http://www.conf-icnc.org/2024/"),
+           ("Organiser", "9th AI Valais/Wallis Workshop on Human-AI Teaming, 2024", "https://hevs.ch/en/events/9th-ai-valais-wallis-workshop-on-human-ai-teaming-208987"),
+           ("Track Chair (IoT and Smart Connected Communities)", "IEEE GLOBECOM 2020", "https://globecom2020.ieee-globecom.org/"),
+           ("General Chair", "IEEE CCAuto 2020 – Workshop on Computing and Communications for Autonomous Driving", "http://mobileedgecom.hevs.ch"),
+           ("General Chair", "IEEE MobileEdgeCom 2019 – Workshop on Mobile Edge/Fog Computing", "http://mobileedgecom.hevs.ch"),
+           ("General Chair", "IEEE AUTO5G 2018 and 2019 – Workshop on 5G and Cooperative Autonomous Driving", "http://e2iot.com/"),
+           ("General Chair", "IEEE EdgeCom 2016, 2017 and 2018 – International Workshop on Edge Computing", "http://edgecom.hevs.ch/"),
+           ("General Chair", "IEEE E2IoT 2015", "http://e2iot.com/"),
+           ("General Chair", "2nd IMDEA Annual International Workshop on Energy Efficiency and Networking, 2010", "http://events.networks.imdea.org/workshop2010")]
     return f"""<h1>Curriculum vitae</h1>
 <p class="links dl"><a href="{CV_PDF}" download="Gianluca-Rizzo-CV.pdf">Download CV in PDF</a></p>
 <h2>Short bio</h2>
@@ -485,7 +508,7 @@ def cv():
 </ul>
 
 <h2>Conference organisation</h2>
-<ul class="plain">{''.join(f'<li>{r}, {E(c)}</li>' for r, c in org)}</ul>
+<ul class="plain">{''.join(f'<li>{r}, <a href="{E(u)}">{E(c)}</a></li>' for r, c, u in org)}</ul>
 
 <h2>Invited talks</h2>
 <ul class="plain">
@@ -561,7 +584,7 @@ def main():
         ("projects.html", "Projects", "Research projects led by Gianluca Rizzo, including the Horizon Europe project UNITY-6G and SNSF projects.", projects(), None),
         ("publications.html", "Publications", "Publications of Gianluca Rizzo: journal articles, conference papers, book chapters and patents.", publications_page(pubs), None),
         ("teaching.html", "Teaching", "Courses taught by Gianluca Rizzo at the Università di Torino, HES-SO Valais-Wallis and elsewhere, with links to the course pages.", teaching(), None),
-        ("student-projects.html", "Student projects", "Bachelor's, Master's and PhD projects with Gianluca Rizzo on 6G networks, edge learning and network performance modelling.", student_projects(), None),
+        ("student-projects.html", "Bachelor, Master & PhD projects", "Bachelor's, Master's and PhD projects with Gianluca Rizzo on 6G networks, edge learning and network performance modelling.", student_projects(), None),
         ("people.html", "People", "PhD students and postdocs supervised by Gianluca Rizzo.", people(), None),
         ("cv.html", "CV", "Curriculum vitae of Gianluca Rizzo: positions, education, awards, service and talks. PDF download available.", cv(), None),
     ]
