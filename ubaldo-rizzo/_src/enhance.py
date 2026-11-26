@@ -157,8 +157,11 @@ def compose(fg, mask, out_w=1600, out_h=2000, gray=False):
 
 def process(path, outpath, kind="sculpture"):
     t = time.time()
-    src = Image.open(path).convert("RGB")
-    big = upscale(src)
+    src = ImageOps.exif_transpose(Image.open(path)).convert("RGB")
+    if max(src.size) >= 1600:            # modern camera originals: no super-resolution needed
+        big = src.copy(); big.thumbnail((2600, 2600), Image.LANCZOS)
+    else:
+        big = upscale(src)
     if kind != "sculpture":
         res = tone(big)
         res.thumbnail((2000, 2000), Image.LANCZOS); res.save(outpath, quality=86, progressive=True, optimize=True)

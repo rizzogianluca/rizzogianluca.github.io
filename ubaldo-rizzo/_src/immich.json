@@ -1,0 +1,607 @@
+{
+ "known": [
+  {
+   "n": 10,
+   "t": "Mosè",
+   "y": "1962",
+   "c": "poss",
+   "cur": "sculture-scaglia.jpg",
+   "new": [
+    "sculture-im010-1.jpg"
+   ],
+   "src": [
+    "P4080190.JPG"
+   ]
+  },
+  {
+   "n": 11,
+   "t": "Addio",
+   "y": "1965",
+   "c": "prob",
+   "cur": "sculture-navedeldeserto1.jpg",
+   "new": [
+    "sculture-im011-1.jpg",
+    "sculture-im011-2.jpg"
+   ],
+   "src": [
+    "DSCN7132.JPG",
+    "DSCN7134.JPG"
+   ]
+  },
+  {
+   "n": 12,
+   "t": "Trasparenza",
+   "y": "1965",
+   "c": "sure",
+   "cur": "sculture-groviera.jpg",
+   "new": [
+    "sculture-im012-1.jpg",
+    "sculture-im012-2.jpg"
+   ],
+   "src": [
+    "DSC01964.JPG",
+    "DSC01966.JPG"
+   ]
+  },
+  {
+   "n": 13,
+   "t": "Donna",
+   "y": "1966",
+   "c": "sure",
+   "cur": "sculture-donnina.jpg",
+   "new": [
+    "sculture-im013-1.jpg",
+    "sculture-im013-2.jpg"
+   ],
+   "src": [
+    "DSC01959.JPG",
+    "DSC01963.JPG"
+   ]
+  },
+  {
+   "n": 18,
+   "t": "Figura",
+   "y": "1967",
+   "c": "prob",
+   "cur": "sculture-don1.jpg",
+   "new": [
+    "sculture-im018-1.jpg",
+    "sculture-im018-2.jpg"
+   ],
+   "src": [
+    "Foto (46).JPG",
+    "Foto (45).JPG"
+   ]
+  },
+  {
+   "n": 24,
+   "t": "Ottentotta",
+   "y": "1968",
+   "c": "sure",
+   "cur": "sculture-4c.jpg",
+   "new": [
+    "sculture-im024-1.jpg",
+    "sculture-im024-2.jpg"
+   ],
+   "src": [
+    "DSC02011.JPG",
+    "Foto (88).JPG"
+   ]
+  },
+  {
+   "n": 39,
+   "t": "Donna al sole",
+   "y": "1970",
+   "c": "sure",
+   "cur": "sculture-donnalsole1.jpg",
+   "new": [
+    "sculture-im039-1.jpg",
+    "sculture-im039-2.jpg"
+   ],
+   "src": [
+    "DSC01971.JPG",
+    "Foto (119).JPG"
+   ]
+  },
+  {
+   "n": 45,
+   "t": "Ballerina",
+   "y": "1972",
+   "c": "prob",
+   "cur": "sculture-puffo1.jpg",
+   "new": [
+    "sculture-im045-1.jpg",
+    "sculture-im045-2.jpg"
+   ],
+   "src": [
+    "DSC01975.JPG",
+    "DSC01987.JPG"
+   ]
+  },
+  {
+   "n": 47,
+   "t": "La fede",
+   "y": "1974",
+   "c": "prob",
+   "cur": "sculture-buco.jpg",
+   "new": [
+    "sculture-im047-1.jpg"
+   ],
+   "src": [
+    "DSCN7114.JPG"
+   ]
+  },
+  {
+   "n": 48,
+   "t": "Ballerina",
+   "y": "1976",
+   "c": "prob",
+   "cur": "sculture-papero1.jpg",
+   "new": [
+    "sculture-im048-1.jpg",
+    "sculture-im048-2.jpg"
+   ],
+   "src": [
+    "DSCN7125.JPG",
+    "Foto (98).JPG"
+   ]
+  },
+  {
+   "n": 51,
+   "t": "Nuotatrice",
+   "y": "1980",
+   "c": "sure",
+   "cur": "sculture-pesce.jpg",
+   "new": [
+    "sculture-im051-1.jpg",
+    "sculture-im051-2.jpg"
+   ],
+   "src": [
+    "DSC01967.JPG",
+    "Foto (117).JPG"
+   ]
+  },
+  {
+   "n": 53,
+   "t": "Gruppo di famiglia",
+   "y": "1982",
+   "c": "poss",
+   "cur": "sculture-elef2.jpg",
+   "new": [
+    "sculture-im053-1.jpg"
+   ],
+   "src": [
+    "DSCN7089.JPG"
+   ]
+  },
+  {
+   "n": 55,
+   "t": "Uccello di mare",
+   "y": "1983",
+   "c": "sure",
+   "cur": "sculture-pulcino.jpg",
+   "new": [
+    "sculture-im055-1.jpg",
+    "sculture-im055-2.jpg"
+   ],
+   "src": [
+    "DSC01991.JPG",
+    "Foto (83).JPG"
+   ]
+  },
+  {
+   "n": 56,
+   "t": "Donna in costume",
+   "y": "1985",
+   "c": "prob",
+   "cur": "sculture-grandepuffo.jpg",
+   "new": [
+    "sculture-im056-1.jpg",
+    "sculture-im056-2.jpg"
+   ],
+   "src": [
+    "DSCN7099.JPG",
+    "Foto (41).JPG"
+   ]
+  },
+  {
+   "n": 58,
+   "t": "Discorso",
+   "y": "1986",
+   "c": "sure",
+   "cur": "sculture-testone.jpg",
+   "new": [
+    "sculture-im058-1.jpg",
+    "sculture-im058-2.jpg"
+   ],
+   "src": [
+    "DSC02008.JPG",
+    "DSC02010.JPG"
+   ]
+  },
+  {
+   "n": 59,
+   "t": "Volo",
+   "y": "1986",
+   "c": "poss",
+   "cur": "sculture-uccello1.jpg",
+   "new": [
+    "sculture-im059-1.jpg"
+   ],
+   "src": [
+    "DSC01995.JPG"
+   ]
+  },
+  {
+   "n": 64,
+   "t": "Donna",
+   "y": "1990",
+   "c": "prob",
+   "cur": "sculture-cane1.jpg",
+   "new": [
+    "sculture-im064-1.jpg",
+    "sculture-im064-2.jpg"
+   ],
+   "src": [
+    "DSCN7142.JPG",
+    "DSCN7143.JPG"
+   ]
+  },
+  {
+   "n": 65,
+   "t": "Riposo",
+   "y": "1990",
+   "c": "prob",
+   "cur": "sculture-elle1.jpg",
+   "new": [
+    "sculture-im065-1.jpg",
+    "sculture-im065-2.jpg"
+   ],
+   "src": [
+    "Foto (76).JPG",
+    "Foto (77).JPG"
+   ]
+  },
+  {
+   "n": 68,
+   "t": "Gruppo",
+   "y": "1993",
+   "c": "prob",
+   "cur": "sculture-cammello1.jpg",
+   "new": [
+    "sculture-im068-1.jpg",
+    "sculture-im068-2.jpg"
+   ],
+   "src": [
+    "Foto (58).JPG",
+    "Foto (57).JPG"
+   ]
+  },
+  {
+   "n": 69,
+   "t": "Zaccheo",
+   "y": "1993",
+   "c": "sure",
+   "cur": "sculture-madreal1.jpg",
+   "new": [
+    "sculture-im069-1.jpg",
+    "sculture-im069-2.jpg"
+   ],
+   "src": [
+    "Foto (126).JPG",
+    "Foto (130).JPG"
+   ]
+  },
+  {
+   "n": 70,
+   "t": "Atleta",
+   "y": "1994",
+   "c": "prob",
+   "cur": "sculture-sagoma.jpg",
+   "new": [
+    "sculture-im070-1.jpg"
+   ],
+   "src": [
+    "DSCN7093.JPG"
+   ]
+  },
+  {
+   "n": 72,
+   "t": "Chiocciola",
+   "y": "1995",
+   "c": "poss",
+   "cur": "sculture-lumaca1.jpg",
+   "new": [
+    "sculture-im072-1.jpg"
+   ],
+   "src": [
+    "DSC02001.JPG"
+   ]
+  },
+  {
+   "n": 74,
+   "t": "Richiamo",
+   "y": "1995",
+   "c": "poss",
+   "cur": "sculture-urlo.jpg",
+   "new": [
+    "sculture-im074-1.jpg"
+   ],
+   "src": [
+    "DSC02004.JPG"
+   ]
+  },
+  {
+   "n": 76,
+   "t": "Unione",
+   "y": "1996",
+   "c": "prob",
+   "cur": "sculture-rinoceronte.jpg",
+   "new": [
+    "sculture-im076-1.jpg",
+    "sculture-im076-2.jpg"
+   ],
+   "src": [
+    "DSCN7117.JPG",
+    "DSCN7120.JPG"
+   ]
+  },
+  {
+   "n": 77,
+   "t": "Riposo",
+   "y": "1997",
+   "c": "prob",
+   "cur": "sculture-conigl2.jpg",
+   "new": [
+    "sculture-im077-1.jpg",
+    "sculture-im077-2.jpg"
+   ],
+   "src": [
+    "DSCN7128.JPG",
+    "Foto (69).JPG"
+   ]
+  },
+  {
+   "n": 79,
+   "t": "Abbandono",
+   "y": "1999",
+   "c": "prob",
+   "cur": "sculture-zoccolo.jpg",
+   "new": [
+    "sculture-im079-1.jpg",
+    "sculture-im079-2.jpg"
+   ],
+   "src": [
+    "DSCN7100.JPG",
+    "Foto (35).JPG"
+   ]
+  },
+  {
+   "n": 81,
+   "t": "Aggressione",
+   "y": "2001",
+   "c": "prob",
+   "cur": "sculture-emme1.jpg",
+   "new": [
+    "sculture-im081-1.jpg",
+    "sculture-im081-2.jpg"
+   ],
+   "src": [
+    "Foto (51).JPG",
+    "Foto (23).JPG"
+   ]
+  },
+  {
+   "n": 82,
+   "t": "Testa di cavallo",
+   "y": "2001",
+   "c": "poss",
+   "cur": "sculture-gnocco1.jpg",
+   "new": [
+    "sculture-im082-1.jpg"
+   ],
+   "src": [
+    "DSCN7104.JPG"
+   ]
+  },
+  {
+   "n": 83,
+   "t": "Via crucis",
+   "y": "2002",
+   "c": "prob",
+   "cur": "sculture-morso1.jpg",
+   "new": [
+    "sculture-im083-1.jpg",
+    "sculture-im083-2.jpg"
+   ],
+   "src": [
+    "Foto (62).JPG",
+    "Foto (59).JPG"
+   ]
+  },
+  {
+   "n": 84,
+   "t": "Donna al sole",
+   "y": "2003",
+   "c": "poss",
+   "cur": "sculture-bernoccolo1.jpg",
+   "new": [
+    "sculture-im084-1.jpg"
+   ],
+   "src": [
+    "DSCN7085.JPG"
+   ]
+  },
+  {
+   "n": 85,
+   "t": "Uccello",
+   "y": "2003",
+   "c": "poss",
+   "cur": "sculture-uccellodimare1.jpg",
+   "new": [
+    "sculture-im085-1.jpg"
+   ],
+   "src": [
+    "DSC02013.JPG"
+   ]
+  }
+ ],
+ "new": [
+  {
+   "n": 1,
+   "y": "2006",
+   "i": [
+    "sculture-nuova01-1.jpg"
+   ],
+   "src": [
+    "DSC01980.JPG"
+   ]
+  },
+  {
+   "n": 2,
+   "y": "2006",
+   "i": [
+    "sculture-nuova02-1.jpg"
+   ],
+   "src": [
+    "DSC01984.JPG"
+   ]
+  },
+  {
+   "n": 3,
+   "y": "2006",
+   "i": [
+    "sculture-nuova03-1.jpg",
+    "sculture-nuova09-1.jpg"
+   ],
+   "src": [
+    "DSC01998.JPG",
+    "Foto (39).JPG"
+   ]
+  },
+  {
+   "n": 4,
+   "y": "2006",
+   "i": [
+    "sculture-nuova04-1.jpg"
+   ],
+   "src": [
+    "DSC02000.JPG"
+   ]
+  },
+  {
+   "n": 5,
+   "y": "2007",
+   "i": [
+    "sculture-nuova05-1.jpg",
+    "sculture-nuova05-2.jpg",
+    "sculture-nuova06-1.jpg"
+   ],
+   "src": [
+    "DSCN7096.JPG",
+    "DSCN7370.JPG",
+    "DSCN7372.JPG"
+   ]
+  },
+  {
+   "n": 6,
+   "y": "2007",
+   "i": [
+    "sculture-nuova07-1.jpg"
+   ],
+   "src": [
+    "Foto (3).JPG"
+   ]
+  },
+  {
+   "n": 7,
+   "y": "2008",
+   "i": [
+    "sculture-nuova08-1.jpg"
+   ],
+   "src": [
+    "DSCN7227.JPG"
+   ]
+  },
+  {
+   "n": 8,
+   "y": "2009",
+   "i": [
+    "sculture-nuova10-1.jpg"
+   ],
+   "src": [
+    "Foto (25).JPG"
+   ]
+  },
+  {
+   "n": 9,
+   "y": "2009",
+   "i": [
+    "sculture-nuova11-1.jpg"
+   ],
+   "src": [
+    "DSCN7340.JPG"
+   ]
+  },
+  {
+   "n": 10,
+   "y": "2009",
+   "i": [
+    "sculture-nuova12-1.jpg"
+   ],
+   "src": [
+    "DSCN7377.JPG"
+   ]
+  },
+  {
+   "n": 11,
+   "y": "2009",
+   "i": [
+    "sculture-nuova13-1.jpg"
+   ],
+   "src": [
+    "Foto (110).JPG"
+   ]
+  },
+  {
+   "n": 12,
+   "y": "2007",
+   "i": [
+    "sculture-nuova14-1.jpg"
+   ],
+   "src": [
+    "DSCN7145.JPG"
+   ]
+  },
+  {
+   "n": 13,
+   "y": "2012",
+   "i": [
+    "sculture-nuova15-1.jpg"
+   ],
+   "src": [
+    "P1190095.JPG"
+   ]
+  },
+  {
+   "n": 14,
+   "y": "2012",
+   "i": [
+    "sculture-nuova16-1.jpg"
+   ],
+   "src": [
+    "P4080193.JPG"
+   ]
+  },
+  {
+   "n": 15,
+   "y": "2013",
+   "i": [
+    "sculture-nuova17-1.jpg"
+   ],
+   "src": [
+    "P4230534.JPG"
+   ]
+  }
+ ]
+}
