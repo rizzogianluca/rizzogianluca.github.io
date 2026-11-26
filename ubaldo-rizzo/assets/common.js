@@ -13,15 +13,35 @@
   if (mb && nav) mb.addEventListener("click", function () { nav.classList.toggle("open"); mb.setAttribute("aria-expanded", nav.classList.contains("open")); });
   // mark wide images in catalogue cards
   document.querySelectorAll(".wcard .frame img").forEach(function (im) {
-    function mark() { if (im.naturalWidth > im.naturalHeight * 1.15) im.parentNode.classList.add("wide"); }
+    function mark() {
+      if (im.naturalWidth > im.naturalHeight * 1.15) {
+        im.parentNode.classList.add("wide");
+      }
+    }
     if (im.complete) mark(); else im.addEventListener("load", mark);
   });
   // work page: views + zoom
   var main = document.getElementById("w-main");
   if (main) {
+    var mode = "r", sw = document.querySelector(".restsw"), stage = document.querySelector(".stage");
+    function show(src, orig, rest) {
+      main.dataset.orig = orig; main.dataset.rest = rest; main.dataset.src = src;
+      var useR = rest === "true" && mode === "r";
+      main.src = useR ? src : orig;
+      stage.classList.toggle("is-restored", useR);
+      if (sw) sw.hidden = rest !== "true";
+    }
+    main.dataset.src = main.src;
+    if (sw) sw.querySelectorAll("button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        mode = b.dataset.v;
+        sw.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", x === b); });
+        show(main.dataset.src, main.dataset.orig, main.dataset.rest);
+      });
+    });
     document.querySelectorAll(".thumbs button").forEach(function (b) {
       b.addEventListener("click", function () {
-        main.src = b.dataset.src;
+        show(b.dataset.src, b.dataset.orig, b.dataset.rest);
         document.querySelectorAll(".thumbs button").forEach(function (x) { x.setAttribute("aria-current", x === b); });
       });
     });

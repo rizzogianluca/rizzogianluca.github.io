@@ -42,6 +42,20 @@ for i, w in enumerate(works, 1):
     w["period"] = period(w)
     w["te"] = w.get("te") or w["t"]
 byimg = {w["i"][0]: w for w in works}
+# Restored photos (background removed, AI-upscaled, colour-corrected) live in img/r/; transparent cut-outs in img/cut/.
+# restored.json lists the images whose restoration was reviewed and approved; all others keep the original photo.
+try: RESTORED = set(json.load(open(os.path.join(HERE, "restored.json"))))
+except FileNotFoundError: RESTORED = set()
+def disp(im): return f"r/{im}" if im in RESTORED and os.path.exists(os.path.join(OUT, "img", "r", im)) else im
+for w in works:  # lead with a restored view when the main photo could not be restored
+    if w["i"][0] not in RESTORED:
+        r = [im for im in w["i"] if im in RESTORED]
+        if r: w["i"] = [r[0]] + [im for im in w["i"] if im != r[0]]
+def cardimg(im):
+    return f"card/{im}" if im in RESTORED and os.path.exists(os.path.join(OUT, "img", "card", im)) else disp(im)
+def cutout(im):
+    c = os.path.splitext(im)[0] + ".webp"
+    return f"cut/{c}" if im in RESTORED and os.path.exists(os.path.join(OUT, "img", "cut", c)) else None
 
 def meta(w, lang="it"):
     m = w["m"] if lang == "it" else w["me"]
@@ -88,7 +102,7 @@ def write(path, content):
 
 def card(w, p):
     return f"""<a class="wcard" href="{p}opere/{w['id']}/" data-no="{w['no']}" data-title="{esc(w['t'])}" data-year="{sortyear(w):04d}" data-period="{w['period']}" data-type="{TYPEKEY[w['s']]}" data-mat="{slug(w['m'])}" data-search="{esc(w['t']+' '+w['te']+' '+w['m']+' '+w['me']+' '+(w.get('y') or '')+' '+w['no'])}">
-<div class="frame"><img loading="lazy" src="{p}img/{w['i'][0]}" alt="{esc(w['t'])}" style="view-transition-name:{w['id']}"></div>
+<div class="frame{' restored' if w['i'][0] in RESTORED else ''}"><img loading="lazy" src="{p}img/{cardimg(w['i'][0])}" alt="{esc(w['t'])}" style="view-transition-name:{w['id']}"></div>
 <div class="cap"><div class="no">{w['no']}</div><div class="t">{L(esc(w['t']), esc(w['te']))}</div><div class="m">{L(esc(meta(w)), esc(meta(w, 'en')))}</div></div></a>"""
 
 # ---------------------------------------------------------------- catalogue
@@ -133,11 +147,15 @@ def work_pages():
         related = [x for x in works if x is not w and (slug(x["t"]) == slug(w["t"]) and x["t"] not in ("Senza titolo",))]
         if len(related) < 4:
             related += [x for x in works if x is not w and x not in related and x["period"] == w["period"] and x["s"] == w["s"]][: 4 - len(related)]
-        thumbs = "".join(f'<button data-src="{p}img/{im}" aria-current="{str(k == 0).lower()}"><img src="{p}img/{im}" alt=""></button>' for k, im in enumerate(w["i"])) if len(w["i"]) > 1 else ""
+        thumbs = "".join(f'<button data-src="{p}img/{disp(im)}" data-orig="{p}img/{im}" data-rest="{str(im in RESTORED).lower()}" aria-current="{str(k == 0).lower()}"><img src="{p}img/{disp(im)}" alt=""></button>' for k, im in enumerate(w["i"])) if len(w["i"]) > 1 else ""
+        r0 = w["i"][0] in RESTORED
+        anyr = any(im in RESTORED for im in w["i"])
+        rest_sw = (f'<div class="restsw"{"" if r0 else " hidden"}><button data-v="r" aria-pressed="true">{L("Restaurata", "Restored")}</button><button data-v="o" aria-pressed="false">{L("Originale", "Original")}</button>'
+                   f'<span class="restnote">{L("Sfondo rimosso, nitidezza e colore migliorati con strumenti di IA. Nessuna parte dell\'opera è stata generata.", "Background removed, sharpness and colour improved with AI tools. No part of the work was generated.")}</span></div>') if anyr else ""
         unk = f'<span class="unknown">{L("da completare", "to be completed")}</span>'
         note = f"<div><dt>{L('Note', 'Notes')}</dt><dd>{L(esc(w['n']), esc(w['ne']))}</dd></div>" if w.get("n") else ""
         ld = {"@context": "https://schema.org", "@type": "VisualArtwork", "name": w["t"], "creator": {"@type": "Person", "name": "Ubaldo Rizzo"},
-              "artMedium": w["m"], "artform": TYPE[w["s"]][0], "image": f"../../img/{w['i'][0]}", "identifier": w["no"]}
+              "artMedium": w["m"], "artform": TYPE[w["s"]][0], "image": f"../../img/{disp(w['i'][0])}", "identifier": w["no"]}
         if w.get("y"): ld["dateCreated"] = w["y"]
         pn = ""
         if prev: pn += f'<a class="prev" href="{p}opere/{prev["id"]}/">← {prev["no"]}<span class="t">{esc(prev["t"])}</span></a>'
@@ -147,8 +165,8 @@ def work_pages():
 {bar(2, "opere/")}
 <main>
 <article class="work">
-  <div><div class="stage"><img id="w-main" src="{p}img/{w['i'][0]}" alt="{esc(w['t'])} — {esc(meta(w))}" style="view-transition-name:{w['id']}"></div>
-  <div class="thumbs">{thumbs}</div></div>
+  <div><div class="stage{' is-restored' if r0 else ''}"><img id="w-main" src="{p}img/{disp(w['i'][0])}" data-orig="{p}img/{w['i'][0]}" data-rest="{str(r0).lower()}" alt="{esc(w['t'])} — {esc(meta(w))}" style="view-transition-name:{w['id']}"></div>
+  {rest_sw}<div class="thumbs">{thumbs}</div></div>
   <div class="winfo">
     <a class="back" href="{p}opere/">← {L("Tutte le opere", "All works")}</a>
     <p class="no">{w['no']}</p>
@@ -250,7 +268,7 @@ CHAPTERS = [
     ("1970", "II", "1972 — 1980", "#17130f", ["sculture-buco.jpg", "sculture-pesce.jpg", "sculture-puffobronzo1.jpg", "sculture-salto4.jpg"]),
     ("1980", "III", "1982 — 1990", "#241b14", ["sculture-pulcino2.jpg", "sculture-uccello1.jpg", "sculture-spilungone-det1.jpg", "sculture-gruppofamiliare1.jpg"]),
     ("1990", "IV", "1991 — 2000", "#3a2a1d", ["sculture-pinguino.jpg", "sculture-madreal1.jpg", "sculture-urlo.jpg", "sculture-lumaca1.jpg"]),
-    ("2000", "V", "2001 — 2003", "#5a4029", ["sculture-emme1.jpg", "sculture-morso1.jpg", "sculture-uccellodimare2.jpg"]),
+    ("2000", "V", "2001 — 2003", "#5a4029", ["sculture-emme1.jpg", "sculture-morso1.jpg", "sculture-uccellodimare1.jpg"]),
 ]
 def journey():
     from PIL import Image
@@ -268,10 +286,12 @@ def journey():
   <p class="ctitle">{esc(", ".join(names[:-1]))} {L("e", "and")} {esc(names[-1])}</p><p class="ccount">{L(f"{n} opere in catalogo", f"{n} works in the catalogue")}</p></div></section>""")
         for j, im in enumerate(imgs):
             w = next(x for x in works if im in x["i"])
-            wide = Image.open(f"{OUT}/img/{im}").size
-            cls = ' class="wide"' if wide[0] > wide[1] * 1.15 else ""
+            co = cutout(im)
+            src = co or im
+            wide = Image.open(f"{OUT}/img/{src}").size
+            cls = (' class="cut wide"' if co else ' class="wide"') if wide[0] > wide[1] * 1.15 else (' class="cut"' if co else "")
             secs.append(f"""<section class="j-work{' flip' if j % 2 else ''}" data-tone="{tone}" data-ch="{key}">
-  <div class="j-fig"><img loading="lazy" src="img/{im}" alt="{esc(w['t'])}"{cls}></div>
+  <div class="j-fig"><img loading="lazy" src="img/{src}" alt="{esc(w['t'])}"{cls}></div>
   <div class="j-cap"><p class="t">{L(esc(w['t']), esc(w['te']))}</p><p class="m">{L(esc(meta(w)), esc(meta(w, 'en')))}</p><a href="opere/{w['id']}/">{L("La scheda", "The record")} · {w['no']}</a></div>
 </section>""")
         if key == "1960":
@@ -292,8 +312,8 @@ def journey():
 {bar(0, "", dark=True)}
 <main>
 <section class="j-intro" data-tone="#0d0c0b" data-ch="intro">
-  <div class="ghost"><img src="img/sculture-10c.jpg" alt=""></div>
-  <div class="lit"><img src="img/sculture-10c.jpg" alt="Preghiera, legno di ulivo, 1968"></div>
+  <div class="ghost"><img src="img/{cutout('sculture-10c.jpg') or 'sculture-10c.jpg'}" alt=""></div>
+  <div class="lit"><img src="img/{cutout('sculture-10c.jpg') or 'sculture-10c.jpg'}" alt="Preghiera, legno di ulivo, 1968"></div>
   <span class="j-touchnote">{L("Muovi la luce", "Move the light")}</span>
   <div class="j-name"><h1>Ubaldo<br>Rizzo</h1><p>{L("Quarant'anni di forme nel legno d'ulivo · 1960 — 2003", "Forty years of forms in olive wood · 1960 — 2003")}</p></div>
   <div class="j-hint">{L("Scorri", "Scroll")}</div>

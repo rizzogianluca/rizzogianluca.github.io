@@ -214,3 +214,25 @@ body.journey{background:var(--night);color:var(--bone);transition:background-col
 
 @media (hover:none){.j-touchnote{display:none}}
 .j-chapter .ctitle{max-width:40ch;margin-left:auto;margin-right:auto}
+
+/* restored photos */
+.stage.is-restored{background:linear-gradient(#ece7df,#d8cfc2)}
+.stage.is-restored img{box-shadow:none}
+.restsw{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .8rem;margin-top:.8rem}
+.restsw[hidden]{display:none}
+.restsw button{border:1px solid var(--line);background:transparent;border-radius:999px;padding:.3rem .8rem;font:500 .74rem var(--sans);color:var(--muted);cursor:pointer}
+.restsw button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.restnote{font-size:.74rem;color:var(--muted);flex-basis:100%}
+.wcard .frame.restored{background:linear-gradient(#ece7df,#d8cfc2)}
+.wcard .frame.restored img{object-fit:contain;padding:0}
+.j-fig img.cut{box-shadow:none;filter:drop-shadow(0 40px 50px rgba(0,0,0,.6)) blur(6px) brightness(.6)}
+.j-work.in .j-fig img.cut{filter:drop-shadow(0 40px 50px rgba(0,0,0,.6))}
+.j-fig img.cut{max-height:80vh}
+.j-intro .lit img[src*="cut/"],.j-intro .ghost img[src*="cut/"]{-webkit-mask-image:none;mask-image:none}
+/* restored images carry their own studio backdrop: let them fill the frame */
+.stage.is-restored{padding:0;background:#ddd5c8;min-height:0}
+.stage.is-restored img{width:100%;max-height:82vh;object-fit:contain;background:#ddd5c8}
+.wcard .frame.restored{background:#e2dbd0}
+.wcard .frame.restored img{object-fit:cover}
+.wcard .frame.restored.wide img{-webkit-mask-image:none;mask-image:none}
+.wcard .frame.restored.wide img{object-fit:cover;padding:0}
