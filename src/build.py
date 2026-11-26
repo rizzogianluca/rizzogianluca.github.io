@@ -6,7 +6,13 @@ Writes the HTML pages, favicon, sitemap.xml and robots.txt into the repository r
 The password-protected network/ page is not touched.
 
 Contact addresses are not stored in this script: they are read from the SITE_EMAILS environment
-variable (comma-separated) or, if it is not set, from the mailto links of the current index.html.
+variable (comma-separated) or, if it is not set, from the encoded e-mail links of the current index.html.
+
+Anti-spam: no page contains a plain address or a mailto: link. Each address is written as
+<a class="em" data-u=... data-d=...>name [at] domain</a>, with the user and domain parts reversed; a small
+script at the end of each page turns it into a normal clickable mailto link in the visitor's browser.
+Without JavaScript the reader sees "name [at] domain". The CV PDF uses the same "[at]" form, and the
+structured data (JSON-LD) carries no address.
 """
 import datetime, html, json, math, os, pathlib, re
 
@@ -22,7 +28,10 @@ def load_emails():
     raw = os.environ.get("SITE_EMAILS", "")
     found = [a.strip() for a in raw.split(",") if a.strip()]
     if not found and (ROOT / "index.html").exists():
-        found = sorted(set(re.findall(r'mailto:([^"?]+)', (ROOT / "index.html").read_text(encoding="utf-8"))))
+        idx = (ROOT / "index.html").read_text(encoding="utf-8")
+        found = sorted({u[::-1] + "@" + d[::-1] for u, d in re.findall(r'data-u="([^"]+)" data-d="([^"]+)"', idx)})
+        if not found:  # pages built before the anti-spam encoding
+            found = sorted(set(re.findall(r'mailto:([^"?]+)', idx)))
     em = {"unito": "", "hevs": ""}
     for a in found:
         for k in em:
@@ -34,7 +43,20 @@ def load_emails():
 
 
 EM = load_emails()
-MAIL = {k: f'<a href="mailto:{v}">{v}</a>' for k, v in EM.items()}
+def at_text(addr):
+    """Human-readable form without an @ sign, e.g. name [at] domain.org."""
+    user, dom = addr.split("@")
+    return f"{user} [at] {dom}"
+
+
+def mail_link(addr):
+    user, dom = addr.split("@")
+    return f'<a class="em" data-u="{E(user[::-1])}" data-d="{E(dom[::-1])}">{E(at_text(addr))}</a>'
+
+
+MAIL = {k: mail_link(v) for k, v in EM.items()}
+MAIL_JS = ("<script>document.querySelectorAll('a.em').forEach(a=>{const r=s=>[...s].reverse().join(''),"
+           "e=r(a.dataset.u)+String.fromCharCode(64)+r(a.dataset.d);a.href='mai'+'lto:'+e;a.textContent=e})</script>")
 
 NAV = [("index.html", "Home"), ("research.html", "Research"), ("projects.html", "Projects"),
        ("publications.html", "Publications"), ("teaching.html", "Teaching"),
@@ -70,7 +92,6 @@ PERSON = {
         {"@type": "CollegeOrUniversity", "name": "HES-SO Valais-Wallis", "url": "https://www.hevs.ch"}],
     "alumniOf": [{"@type": "CollegeOrUniversity", "name": "EPFL"},
                  {"@type": "CollegeOrUniversity", "name": "Politecnico di Torino"}],
-    "email": [f"mailto:{EM['unito']}", f"mailto:{EM['hevs']}"],
     "knowsAbout": ["6G networks", "Wireless networks", "Edge computing", "Gossip learning",
                    "Performance evaluation", "Stochastic geometry", "Network calculus"],
     "sameAs": [u for _, u in PROFILES] + [INST["unito_me"], INST["hevs_me"], INST["hesso_people"]],
@@ -99,6 +120,7 @@ def page(fname, title, desc, body, jsonld=None, current=None):
 {body}
 </div></main>
 <footer><div class="wrap"><span>© {TODAY.year} {ME} · {MAIL['unito']} · {MAIL['hevs']} · <a href="{INST['unito_me']}">UniTo page</a> · <a href="{INST['hevs_me']}">HES-SO page</a></span><span>Last updated {TODAY.day} {TODAY.strftime('%B %Y')}</span></div></footer>
+{MAIL_JS}
 </body></html>
 """
 
@@ -716,8 +738,8 @@ def cv_print_html(pubs):
     """A standalone, print-ready page (CV + full publication list) used to generate cv.pdf."""
     body = cv().replace(f'<p class="links dl"><a href="{CV_PDF}" download="Gianluca-Rizzo-CV.pdf">Download CV in PDF</a></p>', "")
     body = body.replace('<p class="note">This bio may be reused for talks and events.</p>', "")
-    head = (f'<p class="cvhead">{TITLES_LINE}<br>Università di Torino, Department of Computer Science, Via Pessinetto 12, 10149 Torino, Italy · {E(EM["unito"])}<br>'
-            f'HES-SO Valais-Wallis, Institute of Informatics, Technopole 3, 3960 Sierre, Switzerland · {E(EM["hevs"])}<br>'
+    head = (f'<p class="cvhead">{TITLES_LINE}<br>Università di Torino, Department of Computer Science, Via Pessinetto 12, 10149 Torino, Italy · {E(at_text(EM["unito"]))}<br>'
+            f'HES-SO Valais-Wallis, Institute of Informatics, Technopole 3, 3960 Sierre, Switzerland · {E(at_text(EM["hevs"]))}<br>'
             f'{BASE} · ORCID 0000-0001-7129-4972</p>')
     body = body.replace("<h1>Curriculum vitae</h1>", f"<h1>Gianluca Rizzo</h1>{head}", 1)
     pl = ['<h2>Publications</h2>']
