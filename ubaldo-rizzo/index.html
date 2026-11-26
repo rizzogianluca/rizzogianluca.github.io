@@ -1,136 +1,119 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" data-lang="it">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ubaldo Rizzo — Sculture in legno d'ulivo</title>
-<meta name="description" content="Ubaldo Rizzo: sculture in legno d'ulivo, pietra e gesso, pitture e incisioni, 1960–2003.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ubaldo Rizzo — Sculture in legno d&#x27;ulivo</title>
+<meta name="description" content="Ubaldo Rizzo: sculture in legno d&#x27;ulivo, pietra e gesso, pitture e incisioni, 1960–2003.">
+<script>try{var l=localStorage.getItem("ur-lang");if(l)document.documentElement.dataset.lang=l}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+
 </head>
-<body>
-
-<header class="topbar">
-  <a class="brand" href="#top">Ubaldo Rizzo</a>
-  <nav class="nav">
-    <a href="#legno" data-i18n="nav_wood">Legno</a>
-    <a href="#pietra" data-i18n="nav_stone">Pietra</a>
-    <a href="#bassorilievi" data-i18n="nav_relief">Bassorilievi</a>
-    <a href="#pitture" data-i18n="nav_paint">Pitture</a>
-    <a href="#artista" data-i18n="nav_about">L'artista</a>
-  </nav>
-  <div class="lang" role="group" aria-label="Lingua / Language">
-    <button data-lang="it" aria-pressed="true">IT</button>
-    <button data-lang="en" aria-pressed="false">EN</button>
-  </div>
+<body class="journey">
+<header class="bar dark">
+  <a class="brand" href="">Ubaldo Rizzo</a>
+  <button class="menu-btn" aria-expanded="false">Menu</button>
+  <nav><a href="" aria-current="page"><span lang="it">Percorso</span><span lang="en">Journey</span></a><a href="opere/"><span lang="it">Opere</span><span lang="en">Works</span></a><a href="vita/"><span lang="it">Vita e opere</span><span lang="en">Life & work</span></a><a href="archivio/"><span lang="it">Archivio</span><span lang="en">Archive</span></a><a href="segnala/"><span lang="it">Segnala un'opera</span><span lang="en">Report a work</span></a></nav>
+  <div class="langsw" role="group" aria-label="Lingua / Language"><button data-lang="it" aria-pressed="true">IT</button><button data-lang="en" aria-pressed="false">EN</button></div>
 </header>
-
-<main id="top">
-  <section class="hero">
-    <div class="hero-text">
-      <p class="eyebrow" data-i18n="eyebrow">Galleria virtuale · 1960–2003</p>
-      <h1>Ubaldo<br>Rizzo</h1>
-      <p class="lede" data-i18n="lede">Quarant'anni di forme scavate nel legno d'ulivo — e, accanto, la pietra, il gesso, la pittura e l'incisione.</p>
-      <a class="cta" href="#legno" data-i18n="cta">Entra nella galleria</a>
-    </div>
-    <div class="hero-figures" aria-hidden="true">
-      <figure class="hf hf1"><img src="img/sculture-10c.jpg" alt=""></figure>
-      <figure class="hf hf2"><img src="img/sculture-4c.jpg" alt=""></figure>
-      <figure class="hf hf3"><img src="img/sculture-8c.jpg" alt=""></figure>
-    </div>
-  </section>
-
-  <section id="legno" class="section">
-    <div class="section-head">
-      <span class="num">I</span>
-      <div>
-        <h2 data-i18n="wood_title">Sculture in legno d'ulivo</h2>
-        <p class="sub" data-i18n="wood_sub">Il nucleo dell'opera: figure, gruppi e forme aperte ricavate da tronchi d'ulivo, ordinate per decennio.</p>
-      </div>
-    </div>
-    <div class="filters" role="tablist" aria-label="Decennio">
-      <button class="chip active" data-dec="all" data-i18n="all">Tutte</button>
-      <button class="chip" data-dec="1960">1960–1970</button>
-      <button class="chip" data-dec="1970">1970–1980</button>
-      <button class="chip" data-dec="1980">1980–1990</button>
-      <button class="chip" data-dec="1990">1990–2000</button>
-      <button class="chip" data-dec="2000">2000–2003</button>
-    </div>
-    <div class="grid" id="grid-wood"></div>
-  </section>
-
-  <section id="pietra" class="section alt">
-    <div class="section-head">
-      <span class="num">II</span>
-      <div>
-        <h2 data-i18n="stone_title">Sculture in pietra</h2>
-        <p class="sub" data-i18n="stone_sub">Opere degli anni Sessanta, fotografate in studio.</p>
-      </div>
-    </div>
-    <div class="grid" id="grid-stone"></div>
-  </section>
-
-  <section id="bassorilievi" class="section">
-    <div class="section-head">
-      <span class="num">III</span>
-      <div>
-        <h2 data-i18n="relief_title">Bassorilievi</h2>
-        <p class="sub" data-i18n="relief_sub">Rilievi in gesso per una cappella e per un'abitazione.</p>
-      </div>
-    </div>
-    <div class="grid" id="grid-relief"></div>
-  </section>
-
-  <section id="pitture" class="section alt">
-    <div class="section-head">
-      <span class="num">IV</span>
-      <div>
-        <h2 data-i18n="paint_title">Pitture e incisioni</h2>
-        <p class="sub" data-i18n="paint_sub">Le opere non di scultura: chine, linoleografie e oli, 1968–1972.</p>
-      </div>
-    </div>
-    <div class="grid" id="grid-paint"></div>
-  </section>
-
-  <section id="artista" class="section about">
-    <div class="about-img"><img src="img/sculture-sagoma.jpg" alt="Atleta, legno di ulivo, 1994"></div>
-    <div class="about-text">
-      <span class="num">V</span>
-      <h2 data-i18n="about_title">L'artista</h2>
-      <p data-i18n="about_p1">Ubaldo Rizzo ha lavorato soprattutto il legno d'ulivo, seguendone le venature, i nodi e i vuoti fino a farne figure sospese tra corpo e paesaggio. Le opere raccolte qui vanno dal primo bassorilievo, del 1960, alle sculture del 2003.</p>
-      <p data-i18n="about_p2">Questa galleria ripropone, con una nuova veste, le immagini e le didascalie del sito originale realizzato in famiglia tra il 2003 e il 2007.</p>
-      <dl class="facts">
-        <div><dt data-i18n="f_works">Opere</dt><dd id="count-works">—</dd></div>
-        <div><dt data-i18n="f_span">Periodo</dt><dd>1960–2003</dd></div>
-        <div><dt data-i18n="f_mat">Materiali</dt><dd data-i18n="f_mat_v">ulivo, pietra, gesso, bronzo</dd></div>
-      </dl>
-    </div>
-  </section>
+<main>
+<section class="j-intro" data-tone="#0d0c0b" data-ch="intro">
+  <div class="ghost"><img src="img/cut/sculture-10c.webp" alt=""></div>
+  <div class="lit"><img src="img/cut/sculture-10c.webp" alt="Preghiera, legno di ulivo, 1968"></div>
+  <span class="j-touchnote"><span lang="it">Muovi la luce</span><span lang="en">Move the light</span></span>
+  <div class="j-name"><h1>Ubaldo<br>Rizzo</h1><p><span lang="it">Quarant'anni di forme nel legno d'ulivo · 1960 — 2003</span><span lang="en">Forty years of forms in olive wood · 1960 — 2003</span></p></div>
+  <div class="j-hint"><span lang="it">Scorri</span><span lang="en">Scroll</span></div>
+</section>
+<section class="j-chapter" id="ch-1960" data-tone="#0d0c0b" data-ch="1960">
+  <div><p class="roman">I</p><p class="years">1960 — 1969</p>
+  <p class="ctitle">Preghiera, Mosè, Ballerina, Trasparenza <span lang="it">e</span><span lang="en">and</span> Donna al sole</p><p class="ccount"><span lang="it">32 opere in catalogo</span><span lang="en">32 works in the catalogue</span></p></div></section><section class="j-work" data-tone="#0d0c0b" data-ch="1960">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-10c.webp" alt="Preghiera" class="cut"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Preghiera</span><span lang="en">Preghiera</span></p><p class="m"><span lang="it">legno di ulivo, 1968</span><span lang="en">olive wood, 1968</span></p><a href="opere/ur-021-preghiera/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 021</a></div>
+</section><section class="j-work flip" data-tone="#0d0c0b" data-ch="1960">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-scaglia.webp" alt="Mosè" class="cut"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Mosè</span><span lang="en">Mosè</span></p><p class="m"><span lang="it">legno di ulivo, 1962</span><span lang="en">olive wood, 1962</span></p><a href="opere/ur-002-mose/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 002</a></div>
+</section><section class="j-work" data-tone="#0d0c0b" data-ch="1960">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-6c.webp" alt="Ballerina" class="cut"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Ballerina</span><span lang="en">Ballerina</span></p><p class="m"><span lang="it">legno di ulivo, 1967</span><span lang="en">olive wood, 1967</span></p><a href="opere/ur-017-ballerina/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 017</a></div>
+</section><section class="j-work flip" data-tone="#0d0c0b" data-ch="1960">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-groviera.webp" alt="Trasparenza" class="cut"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Trasparenza</span><span lang="en">Trasparenza</span></p><p class="m"><span lang="it">legno di ulivo, 1965</span><span lang="en">olive wood, 1965</span></p><a href="opere/ur-004-trasparenza/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 004</a></div>
+</section><section class="j-work" data-tone="#0d0c0b" data-ch="1960">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-donnalsole1.webp" alt="Donna al sole" class="cut wide"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Donna al sole</span><span lang="en">Donna al sole</span></p><p class="m"><span lang="it">legno di ulivo, 1970</span><span lang="en">olive wood, 1970</span></p><a href="opere/ur-035-donna-al-sole/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 035</a></div>
+</section><section class="j-grain" data-tone="#0d0c0b" data-ch="1960"><div class="bg"></div><div class="txt">
+  <p class="j-small"><span lang="it">Il legno d'ulivo</span><span lang="en">Olive wood</span></p>
+  <p class="j-line"><span lang="it">Nodi, venature, vuoti. Una forma che c'era già, e che andava trovata.</span><span lang="en">Knots, grain, hollows. A form that was already there, waiting to be found.</span></p></div></section><section class="j-chapter" id="ch-1970" data-tone="#17130f" data-ch="1970">
+  <div><p class="roman">II</p><p class="years">1970 — 1978</p>
+  <p class="ctitle">La fede, Nuotatrice, Ballerina <span lang="it">e</span><span lang="en">and</span> Salto II</p><p class="ccount"><span lang="it">18 opere in catalogo</span><span lang="en">18 works in the catalogue</span></p></div></section><section class="j-work" data-tone="#17130f" data-ch="1970">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-buco.webp" alt="La fede" class="cut"></div>
+  <div class="j-cap"><p class="t"><span lang="it">La fede</span><span lang="en">La fede</span></p><p class="m"><span lang="it">legno di ulivo, 1974</span><span lang="en">olive wood, 1974</span></p><a href="opere/ur-047-la-fede/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 047</a></div>
+</section><section class="j-work flip" data-tone="#17130f" data-ch="1970">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-pesce.webp" alt="Nuotatrice" class="cut wide"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Nuotatrice</span><span lang="en">Nuotatrice</span></p><p class="m"><span lang="it">legno di ulivo, 1980</span><span lang="en">olive wood, 1980</span></p><a href="opere/ur-051-nuotatrice/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 051</a></div>
+</section><section class="j-work" data-tone="#17130f" data-ch="1970">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-puffobronzo1.webp" alt="Ballerina" class="cut"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Ballerina</span><span lang="en">Ballerina</span></p><p class="m"><span lang="it">legno di ulivo, 1972</span><span lang="en">olive wood, 1972</span></p><a href="opere/ur-044-ballerina/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 044</a></div>
+</section><section class="j-work flip" data-tone="#17130f" data-ch="1970">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-salto4.webp" alt="Salto II" class="cut wide"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Salto II</span><span lang="en">Salto II</span></p><p class="m"><span lang="it">legno di ulivo, 1980</span><span lang="en">olive wood, 1980</span></p><a href="opere/ur-052-salto-ii/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 052</a></div>
+</section><section class="j-chapter" id="ch-1980" data-tone="#241b14" data-ch="1980">
+  <div><p class="roman">III</p><p class="years">1980 — 1989</p>
+  <p class="ctitle">Uccello di mare, Volo, Decomposizione <span lang="it">e</span><span lang="en">and</span> Gruppo familiare</p><p class="ccount"><span lang="it">12 opere in catalogo</span><span lang="en">12 works in the catalogue</span></p></div></section><section class="j-work" data-tone="#241b14" data-ch="1980">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-pulcino2.webp" alt="Uccello di mare" class="cut"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Uccello di mare</span><span lang="en">Uccello di mare</span></p><p class="m"><span lang="it">legno di ulivo, 1983</span><span lang="en">olive wood, 1983</span></p><a href="opere/ur-055-uccello-di-mare/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 055</a></div>
+</section><section class="j-work flip" data-tone="#241b14" data-ch="1980">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-uccello1.webp" alt="Volo" class="cut wide"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Volo</span><span lang="en">Volo</span></p><p class="m"><span lang="it">legno di ulivo, 1986</span><span lang="en">olive wood, 1986</span></p><a href="opere/ur-059-volo/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 059</a></div>
+</section><section class="j-work" data-tone="#241b14" data-ch="1980">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-spilungone-det1.webp" alt="Decomposizione" class="cut"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Decomposizione</span><span lang="en">Decomposizione</span></p><p class="m"><span lang="it">legno di ulivo, 1988</span><span lang="en">olive wood, 1988</span></p><a href="opere/ur-061-decomposizione/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 061</a></div>
+</section><section class="j-work flip" data-tone="#241b14" data-ch="1980">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-gruppofamiliare1.webp" alt="Gruppo familiare" class="cut"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Gruppo familiare</span><span lang="en">Gruppo familiare</span></p><p class="m"><span lang="it">legno di ulivo, 1982</span><span lang="en">olive wood, 1982</span></p><a href="opere/ur-054-gruppo-familiare/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 054</a></div>
+</section><section class="j-chapter" id="ch-1990" data-tone="#3a2a1d" data-ch="1990">
+  <div><p class="roman">IV</p><p class="years">1990 — 1999</p>
+  <p class="ctitle">Senza titolo, Zaccheo, Richiamo <span lang="it">e</span><span lang="en">and</span> Chiocciola</p><p class="ccount"><span lang="it">17 opere in catalogo</span><span lang="en">17 works in the catalogue</span></p></div></section><section class="j-work" data-tone="#3a2a1d" data-ch="1990">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-pinguino.webp" alt="Senza titolo" class="cut"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Senza titolo</span><span lang="en">Untitled</span></p><p class="m"><span lang="it">legno di ulivo, 1998</span><span lang="en">olive wood, 1998</span></p><a href="opere/ur-078-senza-titolo/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 078</a></div>
+</section><section class="j-work flip" data-tone="#3a2a1d" data-ch="1990">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-madreal1.webp" alt="Zaccheo" class="cut"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Zaccheo</span><span lang="en">Zaccheo</span></p><p class="m"><span lang="it">legno di ulivo, 1993</span><span lang="en">olive wood, 1993</span></p><a href="opere/ur-069-zaccheo/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 069</a></div>
+</section><section class="j-work" data-tone="#3a2a1d" data-ch="1990">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-urlo.webp" alt="Richiamo" class="cut"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Richiamo</span><span lang="en">Richiamo</span></p><p class="m"><span lang="it">legno di ulivo, 1995</span><span lang="en">olive wood, 1995</span></p><a href="opere/ur-074-richiamo/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 074</a></div>
+</section><section class="j-work flip" data-tone="#3a2a1d" data-ch="1990">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-lumaca1.webp" alt="Chiocciola" class="cut wide"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Chiocciola</span><span lang="en">Chiocciola</span></p><p class="m"><span lang="it">legno di ulivo, 1995</span><span lang="en">olive wood, 1995</span></p><a href="opere/ur-072-chiocciola/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 072</a></div>
+</section><section class="j-workshop" data-tone="#3a2a1d" data-ch="1990"><div>
+  <p class="j-small"><span lang="it">In bottega</span><span lang="en">In the workshop</span></p>
+  <p class="j-line"><span lang="it">Trucioli a terra, un tronco che diventa figura.</span><span lang="en">Shavings on the floor, a trunk becoming a figure.</span></p>
+  <div class="j-polas">
+    <figure><img loading="lazy" src="img/sculture-cammello1.jpg" alt=""><figcaption>Gruppo, 1993</figcaption></figure>
+    <figure><img loading="lazy" src="img/sculture-cammello2.jpg" alt=""><figcaption>Gruppo, 1993</figcaption></figure>
+    <figure><img loading="lazy" src="img/sculture-bernoccolo2.jpg" alt=""><figcaption>Donna al sole, 2003</figcaption></figure>
+  </div></div></section><section class="j-chapter" id="ch-2000" data-tone="#5a4029" data-ch="2000">
+  <div><p class="roman">V</p><p class="years">2000 — 2003</p>
+  <p class="ctitle">Aggressione, Via crucis <span lang="it">e</span><span lang="en">and</span> Uccello</p><p class="ccount"><span lang="it">6 opere in catalogo</span><span lang="en">6 works in the catalogue</span></p></div></section><section class="j-work" data-tone="#5a4029" data-ch="2000">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-emme1.webp" alt="Aggressione" class="cut wide"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Aggressione</span><span lang="en">Aggressione</span></p><p class="m"><span lang="it">legno di ulivo, 2001</span><span lang="en">olive wood, 2001</span></p><a href="opere/ur-081-aggressione/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 081</a></div>
+</section><section class="j-work flip" data-tone="#5a4029" data-ch="2000">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-morso1.webp" alt="Via crucis" class="cut wide"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Via crucis</span><span lang="en">Via crucis</span></p><p class="m"><span lang="it">legno di ulivo, 2002</span><span lang="en">olive wood, 2002</span></p><a href="opere/ur-083-via-crucis/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 083</a></div>
+</section><section class="j-work" data-tone="#5a4029" data-ch="2000">
+  <div class="j-fig"><img loading="lazy" src="img/cut/sculture-uccellodimare1.webp" alt="Uccello" class="cut wide"></div>
+  <div class="j-cap"><p class="t"><span lang="it">Uccello</span><span lang="en">Uccello</span></p><p class="m"><span lang="it">legno di ulivo, 2003</span><span lang="en">olive wood, 2003</span></p><a href="opere/ur-085-uccello/"><span lang="it">La scheda</span><span lang="en">The record</span> · UR 085</a></div>
+</section>
+<section class="j-light" data-tone="#7a5a3a" data-ch="after"><div class="bg" style="background-image:url(img/hi/h142.jpg)"></div>
+  <div class="txt"><p class="j-small"><span lang="it">Fotografie 2007 — 2009</span><span lang="en">Photographs 2007 — 2009</span></p><p class="j-line"><span lang="it">Nel cortile, al sole, il legno continua a parlare.</span><span lang="en">In the courtyard, in the sun, the wood keeps speaking.</span></p></div></section>
+<div class="j-strip"><img loading="lazy" src="img/hi/h01.jpg" alt=""><img loading="lazy" src="img/hi/h53.jpg" alt=""><img loading="lazy" src="img/hi/h12.jpg" alt=""><img loading="lazy" src="img/hi/h101.jpg" alt=""></div>
+<section class="j-end" data-tone="#0d0c0b" data-ch="end"><div>
+  <h2><span lang="it">Continua a guardare</span><span lang="en">Keep looking</span></h2>
+  <p><span lang="it">Il catalogo raccoglie 89 opere, ognuna con la sua scheda. Alcune aspettano ancora un nome: forse sai dove si trovano.</span><span lang="en">The catalogue holds 89 works, each with its own record. Some are still waiting for a name: perhaps you know where they are.</span></p>
+  <div class="doors"><a class="btn" href="opere/"><span lang="it">Tutte le opere</span><span lang="en">All works</span></a><a class="btn" href="vita/"><span lang="it">Vita e opere</span><span lang="en">Life & work</span></a><a class="btn" href="segnala/"><span lang="it">Segnala un'opera</span><span lang="en">Report a work</span></a></div>
+</div></section>
 </main>
-
-<footer class="footer">
-  <p>© Famiglia Rizzo · <span data-i18n="foot">Tutte le immagini sono di proprietà della famiglia.</span></p>
-  <p><a href="https://www.comune.cavallino.le.it" target="_blank" rel="noopener">Cavallino</a></p>
-</footer>
-
-<dialog id="lightbox" aria-label="Opera">
-  <button class="lb-close" aria-label="Chiudi">×</button>
-  <button class="lb-nav lb-prev" aria-label="Precedente">‹</button>
-  <button class="lb-nav lb-next" aria-label="Successiva">›</button>
-  <div class="lb-body">
-    <div class="lb-stage"><img id="lb-img" alt=""></div>
-    <aside class="lb-info">
-      <h3 id="lb-title"></h3>
-      <p id="lb-meta"></p>
-      <p id="lb-note"></p>
-      <div id="lb-thumbs"></div>
-    </aside>
-  </div>
-</dialog>
-
-<script src="data.js"></script>
-<script src="app.js"></script>
-</body>
-</html>
+<nav class="j-progress" aria-label="Capitoli"><a href="#ch-1960" data-ch="1960">1960</a><a href="#ch-1970" data-ch="1970">1970</a><a href="#ch-1980" data-ch="1980">1980</a><a href="#ch-1990" data-ch="1990">1990</a><a href="#ch-2000" data-ch="2000">2000</a></nav>
+<footer class="footer" style="border-color:rgba(255,255,255,.08);color:rgba(239,231,218,.5)"><p>© Famiglia Rizzo · <span lang="it">Immagini dall'archivio di famiglia.</span><span lang="en">Images from the family archive.</span></p><p><a href="https://www.comune.cavallino.le.it" target="_blank" rel="noopener">Cavallino</a></p></footer>
+<script src="assets/common.js"></script><script src="assets/journey.js"></script>
+</body></html>
