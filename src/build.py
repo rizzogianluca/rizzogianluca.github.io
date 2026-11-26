@@ -238,7 +238,7 @@ def home(pubs):
     links = "".join(f'<a href="{u}">{n}</a>' for n, u in PROFILES) + '<a href="cv.html">CV</a>'
     return f"""<div class="hero"><div>
 <h1>Gianluca Rizzo</h1>
-<p class="role">Associate Professor of Computer Science, Università di Torino<br>Senior Research Associate, HES-SO Valais-Wallis</p>
+<p class="role">Associate Professor of Computer Science, Dipartimento di Informatica, Università di Torino<br>Senior Research Associate, ConEx Lab, Human‑Centered AI Lab, HES-SO Valais-Wallis</p>
 <p class="lede">I design and analyse distributed and wireless systems: how networks, devices and learning algorithms should be organised to be efficient, sustainable and dependable. My current work focuses on energy-aware 6G networks, mobile base stations and decentralised learning at the network edge, using stochastic geometry, mean-field theory, queueing models and network calculus.</p>
 <ul class="aff">
 <li><strong><a href="{INST['unito']}">Università di Torino</a> – <a href="{INST['unito_dept']}">Department of Computer Science</a></strong><span>Via Pessinetto 12, 10149 Torino, Italy · {MAIL['unito']}</span><span class="aff-links"><a href="{INST['unito_me']}">My UniTo page</a></span></li>
