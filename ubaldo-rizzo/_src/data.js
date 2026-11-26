@@ -6,9 +6,12 @@ window.WORKS = [
 "me": "olive wood",
 "y": "1968",
 "i": [
+"sculture-im024-1.jpg",
+"sculture-im024-2.jpg",
 "sculture-4c.jpg"
 ],
-"d": "1960"
+"d": "1960",
+"ph": "immich"
 },
 {
 "s": "wood",
@@ -146,9 +149,12 @@ window.WORKS = [
 "me": "olive wood",
 "y": "1966",
 "i": [
+"sculture-im013-1.jpg",
+"sculture-im013-2.jpg",
 "sculture-donnina.jpg"
 ],
-"d": "1960"
+"d": "1960",
+"ph": "immich"
 },
 {
 "s": "wood",
@@ -169,10 +175,13 @@ window.WORKS = [
 "me": "olive wood",
 "y": "1965",
 "i": [
+"sculture-im012-1.jpg",
+"sculture-im012-2.jpg",
 "sculture-groviera.jpg",
 "sculture-groviera2.jpg"
 ],
-"d": "1960"
+"d": "1960",
+"ph": "immich"
 },
 {
 "s": "wood",
@@ -181,9 +190,12 @@ window.WORKS = [
 "me": "olive wood",
 "y": "1965",
 "i": [
+"sculture-im011-1.jpg",
+"sculture-im011-2.jpg",
 "sculture-navedeldeserto1.jpg"
 ],
-"d": "1960"
+"d": "1960",
+"ph": "immich"
 },
 {
 "s": "wood",
@@ -204,9 +216,11 @@ window.WORKS = [
 "me": "olive wood",
 "y": "1974",
 "i": [
+"sculture-im047-1.jpg",
 "sculture-buco.jpg"
 ],
-"d": "1970"
+"d": "1970",
+"ph": "immich"
 },
 {
 "s": "wood",
@@ -251,10 +265,13 @@ window.WORKS = [
 "me": "olive wood",
 "y": "1980",
 "i": [
+"sculture-im051-1.jpg",
+"sculture-im051-2.jpg",
 "sculture-pesce.jpg",
 "sculture-pesce2.jpg"
 ],
-"d": "1970"
+"d": "1970",
+"ph": "immich"
 },
 {
 "s": "wood",
@@ -325,10 +342,12 @@ window.WORKS = [
 "me": "olive wood",
 "y": "1982",
 "i": [
+"sculture-im053-1.jpg",
 "sculture-elef2.jpg",
 "sculture-elef3.jpg"
 ],
-"d": "1980"
+"d": "1980",
+"ph": "immich"
 },
 {
 "s": "wood",
@@ -349,9 +368,12 @@ window.WORKS = [
 "me": "olive wood",
 "y": "1985",
 "i": [
+"sculture-im056-1.jpg",
+"sculture-im056-2.jpg",
 "sculture-grandepuffo.jpg"
 ],
-"d": "1980"
+"d": "1980",
+"ph": "immich"
 },
 {
 "s": "wood",
@@ -393,10 +415,13 @@ window.WORKS = [
 "me": "olive wood",
 "y": "1983",
 "i": [
+"sculture-im055-1.jpg",
+"sculture-im055-2.jpg",
 "sculture-pulcino.jpg",
 "sculture-pulcino2.jpg"
 ],
-"d": "1980"
+"d": "1980",
+"ph": "immich"
 },
 {
 "s": "wood",
@@ -429,9 +454,12 @@ window.WORKS = [
 "me": "olive wood",
 "y": "1986",
 "i": [
+"sculture-im058-1.jpg",
+"sculture-im058-2.jpg",
 "sculture-testone.jpg"
 ],
-"d": "1980"
+"d": "1980",
+"ph": "immich"
 },
 {
 "s": "wood",
@@ -560,9 +588,12 @@ window.WORKS = [
 "me": "olive wood",
 "y": "1996",
 "i": [
+"sculture-im076-1.jpg",
+"sculture-im076-2.jpg",
 "sculture-rinoceronte.jpg"
 ],
-"d": "1990"
+"d": "1990",
+"ph": "immich"
 },
 {
 "s": "wood",
@@ -571,9 +602,11 @@ window.WORKS = [
 "me": "olive wood",
 "y": "1994",
 "i": [
+"sculture-im070-1.jpg",
 "sculture-sagoma.jpg"
 ],
-"d": "1990"
+"d": "1990",
+"ph": "immich"
 },
 {
 "s": "wood",

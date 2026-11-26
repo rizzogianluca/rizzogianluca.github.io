@@ -221,7 +221,10 @@ def archivio():
            fig("sculture-bernoccolo1.jpg", "<i>Donna al sole (in piedi)</i>, 2003, sollevata per la fotografia.", "<i>Donna al sole (in piedi)</i>, 2003, held up for the photograph.") + \
            fig("sculture-foto-di-gruppo-2.jpg", "Sculture nel cortile.", "Sculptures in the courtyard.") + \
            fig("sculture-sagoma.jpg", "Accanto ad <i>Atleta</i> (1994).", "Beside <i>Atleta</i> (1994).")
-    unid = "".join(fig(f"hi/{h}.jpg", f"Fotografia {d}. Opera da identificare.", f"Photograph {d}. Work to be identified.")
+    try: IMM = json.load(open(os.path.join(HERE, "immich.json")))
+    except FileNotFoundError: IMM = {"known": [], "new": []}
+    unid = "".join(fig(disp(e["i"][0]), f"Fotografia {e['y']}. Opera da identificare.", f"Photograph {e['y']}. Work to be identified.") for e in IMM["new"]) + \
+           "".join(fig(f"hi/{h}.jpg", f"Fotografia {d}. Opera da identificare.", f"Photograph {d}. Work to be identified.")
                    for h, d in [("h01", "2007"), ("h53", "2007"), ("h43", "2008"), ("h12", "2009"), ("h101", "2009"), ("h142", "2009")])
     body = f"""{head("Archivio — Ubaldo Rizzo", 1)}<body>
 {bar(1, "archivio/")}
@@ -229,7 +232,7 @@ def archivio():
   <div class="page-head"><p class="kicker">{L("Archivio", "Archive")}</p><h1 class="title">{L("Archivio", "Archive")}</h1>
   <p class="lead">{L("Fotografie di lavoro, opere ancora da catalogare e la storia di questo sito.", "Working photographs, works still to be catalogued, and the story of this website.")}</p></div>
   <section class="arch-sec"><h2>{L("La bottega e il cortile", "Workshop and courtyard")}</h2><p>{L("Le opere fotografate dove nascevano e dove venivano messe ad asciugare al sole.", "The works photographed where they were made and where they were set out in the sun.")}</p><div class="arch-grid">{shop}</div></section>
-  <section class="arch-sec"><h2>{L("Opere da identificare", "Works to be identified")}</h2><p>{L("Fotografie scattate tra il 2007 e il 2009 di opere che non compaiono nel catalogo del 2005. Se ne riconosci una — titolo, anno, dove si trova — <a href='../segnala/'>segnalacelo</a>.", "Photographs taken between 2007 and 2009 of works that are not in the 2005 catalogue. If you recognise one — title, year, where it is now — <a href='../segnala/'>let us know</a>.")}</p><div class="arch-grid">{unid}</div></section>
+  <section class="arch-sec"><h2>{L("Opere da identificare", "Works to be identified")}</h2><p>{L("Fotografie scattate tra il 2006 e il 2013 di opere che non compaiono nel catalogo del 2005. Se ne riconosci una — titolo, anno, dove si trova — <a href='../segnala/'>segnalacelo</a>.", "Photographs taken between 2006 and 2013 of works that are not in the 2005 catalogue. If you recognise one — title, year, where it is now — <a href='../segnala/'>let us know</a>.")}</p><div class="arch-grid">{unid}</div></section>
   <section class="arch-sec"><h2>{L("Le versioni del sito", "Versions of the website")}</h2><p>{L("Questo sito è il quarto: i primi furono costruiti in famiglia.", "This is the fourth version of the site; the first ones were built in the family.")}</p>
   <div class="versions">
     <div><b>2003</b>{L("Prima pagina su Xoom/Virgilio: legno, pietra, bassorilievi.", "First page on Xoom/Virgilio: wood, stone, reliefs.")}</div>
@@ -331,6 +334,38 @@ def journey():
 <nav class="j-progress" aria-label="Capitoli">{''.join(prog)}</nav>
 {foot(0, ("journey.js",)).replace('<footer class="footer">', '<footer class="footer" style="border-color:rgba(255,255,255,.08);color:rgba(239,231,218,.5)">')}"""
     write("index.html", body)
+
+# ---------------------------------------------------------------- revisione (not linked; for the family)
+def revisione():
+    try: IMM = json.load(open(os.path.join(HERE, "immich.json")))
+    except FileNotFoundError: return
+    p = "../"
+    byfirst = {}
+    for w in works:
+        for im in w["i"]: byfirst.setdefault(im, w)
+    CONF = {"sure": ("Sicura", "#5a8a4a"), "prob": ("Probabile", "#b08a2a"), "poss": ("Da verificare", "#b0602a")}
+    def im(src, cap): return f'<figure><img loading="lazy" src="{p}img/{src}" alt=""><figcaption>{cap}</figcaption></figure>'
+    rows = ""
+    for e in IMM["known"]:
+        w = byfirst.get(e["new"][0]) or byfirst.get(e["cur"])
+        lab, col = CONF[e["c"]]
+        link = f'<a href="{p}opere/{w["id"]}/">{esc(w["no"])} {esc(w["t"])}</a>' if w else esc(e["t"])
+        shown = "nella scheda" if e["c"] != "poss" else "non ancora nella scheda"
+        rows += f"""<section class="rev"><h3>{link} <span class="muted">{esc(e['y'] or '')}</span> <span class="pill" style="border-color:{col};color:{col}">{lab}</span> <span class="muted">· {shown}</span></h3>
+<div class="rev-grid">{im(e['cur'], 'Foto attuale (2005)')}{''.join(im('r/'+n, 'Immich: ' + esc(o)) for n, o in zip(e['new'], e['src']))}</div></section>"""
+    news = "".join(f"""<section class="rev"><h3>Opera nuova {e['n']} <span class="muted">· fotografia {e['y']}</span></h3>
+<div class="rev-grid">{''.join(im('r/'+n, 'Restaurata · ' + esc(o)) + im(n, 'Originale') for n, o in zip(e['i'], e['src']))}</div></section>""" for e in IMM["new"])
+    body = f"""{head("Revisione foto — Ubaldo Rizzo", 1, extra='<meta name="robots" content="noindex">')}<body>
+{bar(1, "")}
+<main class="page">
+  <div class="page-head"><p class="kicker">Pagina di lavoro, non collegata dal sito</p><h1 class="title">Revisione delle foto da Immich</h1>
+  <p class="lead">Fotografie del 2006–2013 trovate nell'archivio di casa. Per ogni opera: la foto attuale e le nuove, restaurate (sfondo neutro, bilanciamento del colore; nessuna parte dell'opera è generata). «Sicura» e «Probabile» sono già nelle schede; «Da verificare» no. Le opere nuove sono in Archivio, tra le opere da identificare.</p></div>
+  <h2>Opere del catalogo ({len(IMM['known'])})</h2>{rows}
+  <h2>Opere non nel catalogo ({len(IMM['new'])})</h2>{news}
+</main>
+<style>.rev{{margin:28px 0;border-top:1px solid var(--line,#ddd);padding-top:14px}}.rev h3{{font-size:1.05rem;margin:0 0 10px}}.rev .muted{{color:#8a8178;font-weight:400}}.pill{{font-size:.75rem;border:1px solid;border-radius:99px;padding:1px 8px;margin-left:6px}}.rev-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}}.rev-grid img{{width:100%;aspect-ratio:4/5;object-fit:contain;background:#eee8df}}.rev-grid figcaption{{font-size:.78rem;color:#8a8178}}</style>
+{foot(1)}"""
+    write("revisione/index.html", body)
 
 catalogue(); work_pages(); vita(); archivio(); segnala(); journey()
 open(os.path.join(OUT, "README.md"), "w").write("""# Ubaldo Rizzo — catalogo e percorso (v2)
