@@ -182,6 +182,7 @@ def work_pages():
       {note}
       <div><dt>{L("Viste", "Views")}</dt><dd>{len(w['i'])}</dd></div>
     </dl>
+    {btn3d(w, p)}
     <div class="pn">{pn}</div>
   </div>
 </article>
@@ -190,6 +191,48 @@ def work_pages():
 <div class="zoom" role="dialog" aria-label="Zoom"><img alt=""></div>
 {foot(2)}"""
         write(f"opere/{w['id']}/index.html", body)
+
+CAPPELLA3D = {"bassorilievi-cappella-superiore.jpg": "superiore", "bassorilievi-cappella-intermedio.jpg": "centrale", "bassorilievi-cappella-inferiore.jpg": "inferiore"}
+def btn3d(w, p):
+    v = next((CAPPELLA3D[im] for im in w["i"] if im in CAPPELLA3D), None)
+    return f'<a class="btn3d" href="{p}cappella-3d/#{v}">{L("Esplora il rilievo in 3D", "Explore the relief in 3D")} →</a>' if v else ""
+
+# ---------------------------------------------------------------- cappella 3D
+def cappella3d():
+    p = "../"
+    parts = {v: next(w for w in works if k in w["i"]) for k, v in CAPPELLA3D.items()}
+    links = "".join(f'<a href="{p}opere/{parts[v]["id"]}/">{L(esc(parts[v]["t"]), esc(parts[v]["te"]))}</a>' for v in ("superiore", "centrale", "inferiore"))
+    views = "".join(f'<button data-view="{k}" aria-pressed="{str(k == "intero").lower()}">{L(it, en)}</button>' for k, it, en in
+                    [("intero", "Intero", "Whole"), ("superiore", "Parte superiore", "Upper"), ("centrale", "Parte centrale", "Middle"), ("inferiore", "Parte inferiore", "Lower")])
+    imap = '<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>'
+    body = f"""{head("La cappella in 3D — Ubaldo Rizzo", 1, "Il grande bassorilievo della cappella di Ubaldo Rizzo, da esplorare in tre dimensioni.", extra=imap)}<body>
+{bar(1, "opere/")}
+<main class="page">
+  <div class="page-head"><p class="kicker">{L("Bassorilievo · gesso", "Bas-relief · plaster")}</p><h1 class="title">{L("La cappella, in rilievo", "The chapel relief in 3D")}</h1>
+  <p class="lead">{L("Le tre parti del grande bassorilievo della cappella, ricomposte in un unico pannello. Trascinalo per girarci intorno e sposta la luce radente per far emergere le figure.", "The three sections of the large chapel relief, put back together as one panel. Drag to move around it, and move the raking light to bring the figures out.")}</p></div>
+  <div class="r3d-wrap">
+    <div class="r3d" id="r3d" data-base="{p}img/3d/" aria-label="{L("Modello 3D interattivo del bassorilievo", "Interactive 3D model of the relief")}">
+      <img class="r3d-poster" src="{p}img/3d/cappella-albedo.jpg" alt="{L("Il bassorilievo della cappella", "The chapel relief")}">
+      <p class="r3d-msg">{L("Caricamento del modello…", "Loading the model…")}</p>
+      <noscript><img src="{p}img/3d/cappella-albedo.jpg" alt="" style="position:absolute;inset:0;height:100%;margin:auto"></noscript>
+    </div>
+    <div class="r3d-panel">
+      <div><h2>{L("Vista", "View")}</h2><div class="r3d-views">{views}</div></div>
+      <div><h2>{L("Luce radente", "Raking light")}</h2>
+        <label>{L("Direzione", "Direction")}<input id="r3d-az" type="range" min="-180" max="180" step="1" value="38"></label>
+        <label>{L("Altezza", "Height")}<input id="r3d-el" type="range" min="4" max="85" step="1" value="26"></label></div>
+      <div><h2>{L("Rilievo", "Relief")}</h2>
+        <label>{L("Profondità", "Depth")}<input id="r3d-depth" type="range" min="0.01" max="0.22" step="0.005" value="0.085"></label></div>
+      <div><h2>{L("Superficie", "Surface")}</h2><div class="r3d-mats"><button data-mat="foto" aria-pressed="true">{L("Fotografia", "Photograph")}</button><button data-mat="gesso" aria-pressed="false">{L("Solo forma", "Shape only")}</button></div></div>
+      <p class="r3d-hint">{L("Trascina per ruotare · tasto destro o due dita per spostare · rotella o pizzico per avvicinarti · doppio clic per girare intorno a un punto.", "Drag to rotate · right-drag or two fingers to pan · scroll or pinch to zoom · double-click to orbit a point.")}</p>
+    </div>
+  </div>
+  <p class="r3d-note">{L("Il modello è ricostruito a partire dalle fotografie: la profondità del rilievo è stimata dalle luci e dalle ombre, non misurata sull'opera. Le figure e i dettagli sono quelli delle fotografie.", "The model is reconstructed from photographs: the depth of the relief is estimated from light and shadow, not measured on the work. The figures and details are those in the photographs.")}</p>
+  <div class="r3d-links">{links}</div>
+</main>
+<script type="module" src="{p}assets/relief3d.js"></script>
+{foot(1)}"""
+    write("cappella-3d/index.html", body)
 
 # ---------------------------------------------------------------- vita
 def vita():
@@ -233,6 +276,7 @@ def archivio():
   <p class="lead">{L("Fotografie di lavoro, opere ancora da catalogare e la storia di questo sito.", "Working photographs, works still to be catalogued, and the story of this website.")}</p></div>
   <section class="arch-sec"><h2>{L("La bottega e il cortile", "Workshop and courtyard")}</h2><p>{L("Le opere fotografate dove nascevano e dove venivano messe ad asciugare al sole.", "The works photographed where they were made and where they were set out in the sun.")}</p><div class="arch-grid">{shop}</div></section>
   <section class="arch-sec"><h2>{L("Opere da identificare", "Works to be identified")}</h2><p>{L("Fotografie scattate tra il 2006 e il 2013 di opere che non compaiono nel catalogo del 2005. Se ne riconosci una — titolo, anno, dove si trova — <a href='../segnala/'>segnalacelo</a>.", "Photographs taken between 2006 and 2013 of works that are not in the 2005 catalogue. If you recognise one — title, year, where it is now — <a href='../segnala/'>let us know</a>.")}</p><div class="arch-grid">{unid}</div></section>
+  <section class="arch-sec"><h2>{L("La cappella in 3D", "The chapel relief in 3D")}</h2><p>{L("Le tre parti del bassorilievo della cappella ricomposte in un modello tridimensionale, da girare e illuminare.", "The three sections of the chapel relief put back together as a 3D model you can turn and light.")} <a href="../cappella-3d/">{L("Apri il modello", "Open the model")} →</a></p></section>
   <section class="arch-sec"><h2>{L("Le versioni del sito", "Versions of the website")}</h2><p>{L("Questo sito è il quarto: i primi furono costruiti in famiglia.", "This is the fourth version of the site; the first ones were built in the family.")}</p>
   <div class="versions">
     <div><b>2003</b>{L("Prima pagina su Xoom/Virgilio: legno, pietra, bassorilievi.", "First page on Xoom/Virgilio: wood, stone, reliefs.")}</div>
@@ -367,7 +411,7 @@ def revisione():
 {foot(1)}"""
     write("revisione/index.html", body)
 
-catalogue(); work_pages(); vita(); archivio(); segnala(); journey()
+catalogue(); work_pages(); vita(); archivio(); segnala(); journey(); cappella3d()
 open(os.path.join(OUT, "README.md"), "w").write("""# Ubaldo Rizzo — catalogo e percorso (v2)
 
 Static site generated by `_src/build.py` from `_src/data.js`. To fix a caption or add a work, edit `_src/data.js` and run `python3 ubaldo-rizzo/_src/build.py`.

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="it" data-lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La cappella in 3D — Ubaldo Rizzo</title>
+<meta name="description" content="Il grande bassorilievo della cappella di Ubaldo Rizzo, da esplorare in tre dimensioni.">
+<script>try{var l=localStorage.getItem("ur-lang");if(l)document.documentElement.dataset.lang=l}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="../">Ubaldo Rizzo</a>
+  <button class="menu-btn" aria-expanded="false">Menu</button>
+  <nav><a href="../"><span lang="it">Percorso</span><span lang="en">Journey</span></a><a href="../opere/" aria-current="page"><span lang="it">Opere</span><span lang="en">Works</span></a><a href="../vita/"><span lang="it">Vita e opere</span><span lang="en">Life & work</span></a><a href="../archivio/"><span lang="it">Archivio</span><span lang="en">Archive</span></a><a href="../segnala/"><span lang="it">Segnala un'opera</span><span lang="en">Report a work</span></a></nav>
+  <div class="langsw" role="group" aria-label="Lingua / Language"><button data-lang="it" aria-pressed="true">IT</button><button data-lang="en" aria-pressed="false">EN</button></div>
+</header>
+<main class="page">
+  <div class="page-head"><p class="kicker"><span lang="it">Bassorilievo · gesso</span><span lang="en">Bas-relief · plaster</span></p><h1 class="title"><span lang="it">La cappella, in rilievo</span><span lang="en">The chapel relief in 3D</span></h1>
+  <p class="lead"><span lang="it">Le tre parti del grande bassorilievo della cappella, ricomposte in un unico pannello. Trascinalo per girarci intorno e sposta la luce radente per far emergere le figure.</span><span lang="en">The three sections of the large chapel relief, put back together as one panel. Drag to move around it, and move the raking light to bring the figures out.</span></p></div>
+  <div class="r3d-wrap">
+    <div class="r3d" id="r3d" data-base="../img/3d/" aria-label="<span lang="it">Modello 3D interattivo del bassorilievo</span><span lang="en">Interactive 3D model of the relief</span>">
+      <img class="r3d-poster" src="../img/3d/cappella-albedo.jpg" alt="<span lang="it">Il bassorilievo della cappella</span><span lang="en">The chapel relief</span>">
+      <p class="r3d-msg"><span lang="it">Caricamento del modello…</span><span lang="en">Loading the model…</span></p>
+      <noscript><img src="../img/3d/cappella-albedo.jpg" alt="" style="position:absolute;inset:0;height:100%;margin:auto"></noscript>
+    </div>
+    <div class="r3d-panel">
+      <div><h2><span lang="it">Vista</span><span lang="en">View</span></h2><div class="r3d-views"><button data-view="intero" aria-pressed="true"><span lang="it">Intero</span><span lang="en">Whole</span></button><button data-view="superiore" aria-pressed="false"><span lang="it">Parte superiore</span><span lang="en">Upper</span></button><button data-view="centrale" aria-pressed="false"><span lang="it">Parte centrale</span><span lang="en">Middle</span></button><button data-view="inferiore" aria-pressed="false"><span lang="it">Parte inferiore</span><span lang="en">Lower</span></button></div></div>
+      <div><h2><span lang="it">Luce radente</span><span lang="en">Raking light</span></h2>
+        <label><span lang="it">Direzione</span><span lang="en">Direction</span><input id="r3d-az" type="range" min="-180" max="180" step="1" value="38"></label>
+        <label><span lang="it">Altezza</span><span lang="en">Height</span><input id="r3d-el" type="range" min="4" max="85" step="1" value="26"></label></div>
+      <div><h2><span lang="it">Rilievo</span><span lang="en">Relief</span></h2>
+        <label><span lang="it">Profondità</span><span lang="en">Depth</span><input id="r3d-depth" type="range" min="0.01" max="0.22" step="0.005" value="0.085"></label></div>
+      <div><h2><span lang="it">Superficie</span><span lang="en">Surface</span></h2><div class="r3d-mats"><button data-mat="foto" aria-pressed="true"><span lang="it">Fotografia</span><span lang="en">Photograph</span></button><button data-mat="gesso" aria-pressed="false"><span lang="it">Solo forma</span><span lang="en">Shape only</span></button></div></div>
+      <p class="r3d-hint"><span lang="it">Trascina per ruotare · tasto destro o due dita per spostare · rotella o pizzico per avvicinarti · doppio clic per girare intorno a un punto.</span><span lang="en">Drag to rotate · right-drag or two fingers to pan · scroll or pinch to zoom · double-click to orbit a point.</span></p>
+    </div>
+  </div>
+  <p class="r3d-note"><span lang="it">Il modello è ricostruito a partire dalle fotografie: la profondità del rilievo è stimata dalle luci e dalle ombre, non misurata sull'opera. Le figure e i dettagli sono quelli delle fotografie.</span><span lang="en">The model is reconstructed from photographs: the depth of the relief is estimated from light and shadow, not measured on the work. The figures and details are those in the photographs.</span></p>
+  <div class="r3d-links"><a href="../opere/ur-089-cappella-parte-superiore/"><span lang="it">Cappella – parte superiore</span><span lang="en">Chapel – upper section</span></a><a href="../opere/ur-087-cappella-parte-centrale/"><span lang="it">Cappella – parte centrale</span><span lang="en">Chapel – middle section</span></a><a href="../opere/ur-088-cappella-parte-inferiore/"><span lang="it">Cappella – parte inferiore</span><span lang="en">Chapel – lower section</span></a></div>
+</main>
+<script type="module" src="../assets/relief3d.js"></script>
+<footer class="footer"><p>© Famiglia Rizzo · <span lang="it">Immagini dall'archivio di famiglia.</span><span lang="en">Images from the family archive.</span></p><p><a href="https://www.comune.cavallino.le.it" target="_blank" rel="noopener">Cavallino</a></p></footer>
+<script src="../assets/common.js"></script>
+</body></html>
