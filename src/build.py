@@ -66,7 +66,6 @@ def page(fname, title, desc, body, jsonld=None):
     full_title = ME if fname == "index.html" else f"{title} – {ME}"
     url = BASE if fname == "index.html" else BASE + fname
     nav = "".join(f'<li><a href="{f}"{" aria-current=page" if f == fname else ""}>{n}</a></li>' for f, n in NAV)
-    nav += f'<li><a class="pdf" href="{CV_PDF}" download="Gianluca-Rizzo-CV.pdf" title="Download CV (PDF)">CV PDF ↓</a></li>'
     ld = f'<script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>' if jsonld else ""
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -78,7 +77,8 @@ def page(fname, title, desc, body, jsonld=None):
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Spectral:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">{ld}</head><body>
 <a class="skip" href="#content">Skip to content</a>
-<header class="site"><div class="wrap"><a class="brand" href="index.html">{ME}</a><nav aria-label="Main"><ul>{nav}</ul></nav></div></header>
+<header class="site"><div class="wrap"><a class="brand" href="index.html">{ME}</a><button class="menu" type="button" aria-expanded="false" aria-controls="nav"><span aria-hidden="true"></span>Menu</button><nav id="nav" aria-label="Main"><ul>{nav}</ul></nav></div></header>
+<script>document.querySelector('.menu').addEventListener('click',e=>{{const b=e.currentTarget,n=document.getElementById('nav'),o=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',String(o));n.classList.toggle('open',o)}})</script>
 <main id="content"><div class="wrap">
 {body}
 </div></main>
@@ -302,7 +302,7 @@ TEACHING = [
      "Università di Torino – BSc Computer Science", "2024–", True),
     ("Sistemi informativi e gestione delle reti aziendali (Information Systems and Network Management)", "SAA0069",
      "https://saa.campusnet.unito.it/do/corsi.pl/Show?_id=vvv2",
-     "Università di Torino – BSc Management dell'Informazione e della Comunicazione Aziendale", "2024–", True),
+     "Università di Torino – BSc Management dell'Informazione e della Comunicazione Aziendale", "2024–2026", False),
     ("Computer Networks", "", "https://hevs.ch/en/schools/school-of-management/business-information-technology",
      "HES-SO Valais-Wallis – BSc Business Information Technology (programme page)", "2021–22, 2023–24", False),
     ("Computer Networks (Sistemi Informativi II)", "", "", "University of Foggia", "2021–2025", False),
@@ -377,7 +377,6 @@ PEOPLE_CURRENT = [
      [("HES-SO", "https://people.hes-so.ch/en/profile/10071804451-berk-buzcu"), ("Google Scholar", "https://scholar.google.com/citations?user=THXz4A8AAAAJ")]),
     ("Saira Bano", "Postdoctoral researcher, since 2025",
      [("Publications", "https://iris.cnr.it/cris/rp/rp14228")]),
-    ("Dhekra Zaafrane", "PhD candidate, co-supervised, since 2023", []),
 ]
 PEOPLE_ALUMNI = [
     ("Biagio Boi", "PhD, University of Salerno, 2022–2026 (co-supervised)", [("Website", "https://biagioboi.github.io")]),
@@ -396,17 +395,39 @@ PEOPLE_ALUMNI = [
 ]
 
 
+def initials(name):
+    parts = [w for w in re.split(r"[\s-]+", name) if w[:1].isupper()]
+    return (parts[0][0] + parts[-1][0]) if len(parts) > 1 else name[:2]
+
+
+def slug(name):
+    import unicodedata
+    n = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode().lower()
+    return re.sub(r"[^a-z0-9]+", "-", n).strip("-")
+
+
+def avatar(name):
+    """Photo from people/<slug>.jpg if present, otherwise initials."""
+    for ext in ("jpg", "jpeg", "png", "webp"):
+        f = ROOT / "people" / f"{slug(name)}.{ext}"
+        if f.exists():
+            return f'<img class="avatar" src="people/{f.name}" alt="" width="64" height="64" loading="lazy">'
+    return f'<span class="avatar" aria-hidden="true">{E(initials(name))}</span>'
+
+
 def people():
-    def li(xs):
+    def li(xs, dr=False):
         out = []
         for n, d, links in xs:
             lk = "".join(f'<a href="{E(u)}">{E(l)}</a>' for l, u in links)
-            out.append(f'<li><strong>{E(n)}</strong><span>{E(d)}</span>{f"<span class=lk>{lk}</span>" if lk else ""}</li>')
+            shown = f"Dr. {n}" if dr else n
+            out.append(f'<li>{avatar(n)}<div class="who"><strong>{E(shown)}</strong><span>{E(d)}</span>'
+                       f'{f"<span class=lk>{lk}</span>" if lk else ""}</div></li>')
         return "".join(out)
     return f"""<h1>People</h1>
 <p class="lede">PhD students and postdoctoral researchers I supervise or have supervised.</p>
 <h2>Current</h2><ul class="people">{li(PEOPLE_CURRENT)}</ul>
-<h2>Alumni</h2><ul class="people">{li(PEOPLE_ALUMNI)}</ul>
+<h2>Alumni</h2><ul class="people">{li(PEOPLE_ALUMNI, dr=True)}</ul>
 <aside class="callout"><h2>Join</h2><p>Open positions are announced here and on LinkedIn. For theses and projects, see <a href="student-projects.html">student projects</a>.</p></aside>
 """
 
@@ -419,7 +440,7 @@ def cv():
            ("General Chair", "IEEE CCAuto 2020, IEEE MobileEdgeCom 2019, IEEE AUTO5G 2018–2019, IEEE EdgeCom 2016–2018, IEEE E2IoT 2015"),
            ("General Chair", "2nd IMDEA Workshop on Energy Efficiency and Networking, 2010")]
     return f"""<h1>Curriculum vitae</h1>
-<p class="links dl"><a href="{CV_PDF}" download="Gianluca-Rizzo-CV.pdf">Download CV (PDF) ↓</a></p>
+<p class="links dl"><a href="{CV_PDF}" download="Gianluca-Rizzo-CV.pdf">Download CV in PDF</a></p>
 <h2>Short bio</h2>
 <p class="bio">Gianluca Rizzo is Associate Professor of Computer Science at the Università di Torino, Italy, and Senior Research Associate at the University of Applied Sciences of Western Switzerland (HES-SO Valais-Wallis). He received his PhD in Computer Science from EPFL in 2008 and his MSc in Electronics Engineering from Politecnico di Torino in 2001. He was a researcher at IMDEA Networks in Madrid (2009–2013), worked at ABB and Telecom Italia Lab, and was Associate Professor at the University of Foggia (2020–2024). His research focuses on the design and performance evaluation of distributed and wireless systems, including sustainable 6G networks, mobile base stations and decentralised learning at the network edge. He is a TPC lead member of IEEE INFOCOM, Area Editor of Elsevier Computer Communications, and an IEEE Senior Member.</p>
 <p class="note">This bio may be reused for talks and events.</p>
@@ -494,7 +515,7 @@ FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect w
 
 def cv_print_html(pubs):
     """A standalone, print-ready page (CV + full publication list) used to generate cv.pdf."""
-    body = cv().replace(f'<p class="links dl"><a href="{CV_PDF}" download="Gianluca-Rizzo-CV.pdf">Download CV (PDF) ↓</a></p>', "")
+    body = cv().replace(f'<p class="links dl"><a href="{CV_PDF}" download="Gianluca-Rizzo-CV.pdf">Download CV in PDF</a></p>', "")
     body = body.replace('<p class="note">This bio may be reused for talks and events.</p>', "")
     head = (f'<p class="cvhead">{TITLES_LINE}<br>Università di Torino, Department of Computer Science, Via Pessinetto 12, 10149 Torino, Italy · {E(EM["unito"])}<br>'
             f'HES-SO Valais-Wallis, Institute of Informatics, Technopole 3, 3960 Sierre, Switzerland · {E(EM["hevs"])}<br>'
