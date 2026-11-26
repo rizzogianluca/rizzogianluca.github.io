@@ -37,8 +37,9 @@ EM = load_emails()
 MAIL = {k: f'<a href="mailto:{v}">{v}</a>' for k, v in EM.items()}
 
 NAV = [("index.html", "Home"), ("research.html", "Research"), ("projects.html", "Projects"),
-       ("publications.html", "Publications"), ("teaching.html", "Teaching"), ("people.html", "People"),
-       ("cv.html", "CV")]
+       ("publications.html", "Publications"), ("teaching.html", "Teaching"),
+       ("student-projects.html", "Student projects"), ("people.html", "People"), ("cv.html", "CV")]
+CV_PDF = "cv.pdf"
 
 PROFILES = [("Google Scholar", "https://scholar.google.com/citations?user=NzZ5dd8AAAAJ"),
             ("dblp", "https://dblp.org/pid/71/3141"),
@@ -65,6 +66,7 @@ def page(fname, title, desc, body, jsonld=None):
     full_title = ME if fname == "index.html" else f"{title} – {ME}"
     url = BASE if fname == "index.html" else BASE + fname
     nav = "".join(f'<li><a href="{f}"{" aria-current=page" if f == fname else ""}>{n}</a></li>' for f, n in NAV)
+    nav += f'<li><a class="pdf" href="{CV_PDF}" download="Gianluca-Rizzo-CV.pdf" title="Download CV (PDF)">CV PDF ↓</a></li>'
     ld = f'<script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>' if jsonld else ""
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -119,11 +121,9 @@ def pub_li(p, show_year=True):
 
 
 def publications_page(pubs):
-    counts = {t: sum(1 for p in pubs if p["type"] == t) for t in TYPES}
     sel = sorted([p for p in pubs if p["selected"]], key=lambda p: -p["year"])
     out = ['<h1>Publications</h1>',
-           f'<p class="lede">{counts["J"]} journal articles, {counts["C"]} conference papers, {counts["B"]} book chapters and '
-           f'{counts["P"]} patent. Titles link to the published version. Citation metrics are on '
+           '<p class="lede">Citation metrics are on '
            + ", ".join(f'<a href="{u}">{n}</a>' for n, u in PROFILES[:3]) + '.</p>',
            '<h2 id="selected">Selected publications</h2><ol class="pubs">' + "".join(pub_li(p) for p in sel) + '</ol>',
            '<h2 id="all">All publications</h2>',
@@ -238,7 +238,7 @@ def home(pubs):
 <h2>News</h2>
 <div class="news">{news}</div>
 <aside class="callout"><h2>Prospective students</h2>
-<p>I supervise PhD and Master's theses at the Università di Torino and at HES-SO Valais-Wallis on 6G networks, edge learning and network performance modelling. If you are interested, write to me with your CV, your transcripts and a few lines on the topic you would like to work on.</p></aside>
+<p>I supervise Bachelor's, Master's and PhD projects at the Università di Torino and at HES-SO Valais-Wallis on 6G networks, edge learning and network performance modelling. <a href="student-projects.html">See student projects →</a></p></aside>
 """
 
 
@@ -294,43 +294,120 @@ def projects():
 """
 
 
+TEACHING = [
+    # (course, code/notes, course page URL, institution and programme, years, current)
+    ("Complementi di Reti (Advanced Computer Networks)", "INF0342 · taught in English, with Michele Garetto",
+     "https://laurea.informatica.unito.it/do/corsi.pl/Show?_id=pgrx", "Università di Torino – BSc Computer Science", "2025–", True),
+    ("Basi di Dati (Databases)", "MFN0602", "https://laurea.informatica.unito.it/do/corsi.pl/Show?_id=hlun",
+     "Università di Torino – BSc Computer Science", "2024–", True),
+    ("Sistemi informativi e gestione delle reti aziendali (Information Systems and Network Management)", "SAA0069",
+     "https://saa.campusnet.unito.it/do/corsi.pl/Show?_id=vvv2",
+     "Università di Torino – BSc Management dell'Informazione e della Comunicazione Aziendale", "2024–", True),
+    ("Computer Networks", "", "https://hevs.ch/en/schools/school-of-management/business-information-technology",
+     "HES-SO Valais-Wallis – BSc Business Information Technology (programme page)", "2021–22, 2023–24", False),
+    ("Computer Networks (Sistemi Informativi II)", "", "", "University of Foggia", "2021–2025", False),
+    ("Big Data", "", "", "University of Foggia", "2024", False),
+    ("Mobile Networks and IoT", "", "", "University of Foggia", "2024", False),
+    ("Multimedia Management and Processing", "", "", "University of Foggia", "2020–2023", False),
+    ("Internet of Things: IoT protocols and communications", "", "", "EPFL", "", False),
+    ("Post-Disaster Communications and Emergency Networks", "Training school", "", "COST Action RECODIS, Brussels", "", False),
+    ("Shared Medium and LAN Technologies", "Adjunct professor", "", "Universidad Carlos III de Madrid", "2009–2011", False),
+    ("TCP/IP Networking (Computer Networks)", "Teaching assistant", "https://edu.epfl.ch/studyplan/fr/master/informatique-cybersecurity/coursebook/tcp-ip-networking-COM-407",
+     "EPFL", "2004–2008", False),
+    ("Performance Evaluation", "Teaching assistant", "https://leboudec.github.io/perfeval", "EPFL", "2004–2008", False),
+    ("C and C++ Programming", "Teaching assistant", "", "EPFL", "2004–2008", False),
+    ("Java Programming", "Teaching assistant", "", "Politecnico di Torino", "", False),
+]
+
+
 def teaching():
-    return """<h1>Teaching</h1>
-<p class="lede">I teach computer networks and databases at the Università di Torino and at HES-SO Valais-Wallis. Course material, schedules and exams are on the official course pages of each university.</p>
-<h2>Current courses</h2>
-<table class="tbl"><thead><tr><th>Course</th><th>Institution</th><th>Years</th></tr></thead><tbody>
-<tr><td>Computer Networks</td><td>Università di Torino</td><td>2024–present</td></tr>
-<tr><td>Complements of Computer Networks <span class="note">(Complementi di Reti, INF0342)</span></td><td>Università di Torino</td><td>2025–present</td></tr>
-<tr><td>Databases <span class="note">(Basi di Dati, MFN0602)</span></td><td>Università di Torino</td><td>2024–present</td></tr>
-<tr><td>Computer Networks</td><td>HES-SO Valais-Wallis</td><td>2021–22, 2023–24</td></tr>
+    def row(t):
+        name, note, url, inst, years, _ = t
+        title = f'<a href="{E(url)}">{E(name)}</a>' if url else E(name)
+        note = f'<span class="note">{E(note)}</span>' if note else ""
+        return f'<tr><td>{title}{"<br>" + note if note else ""}</td><td>{E(inst)}</td><td class="yrs">{E(years) or "–"}</td></tr>'
+    head = '<thead><tr><th>Course</th><th>Institution and programme</th><th>Years</th></tr></thead>'
+    cur = "".join(row(t) for t in TEACHING if t[5])
+    past = "".join(row(t) for t in TEACHING if not t[5])
+    return f"""<h1>Teaching</h1>
+<p class="lede">Course titles link to the official course pages, where you find the syllabus, schedule and exam information.</p>
+<table class="tbl teach">{head}<tbody>
+<tr class="grp"><th colspan="3">Current</th></tr>{cur}
+<tr class="grp"><th colspan="3">Earlier</th></tr>{past}
 </tbody></table>
-<h2>Earlier teaching</h2>
+<p class="more">Looking for a thesis or a project? See <a href="student-projects.html">student projects</a>.</p>
+"""
+
+
+STUDENT_TOPICS = [
+    ("Moving networks", "Simulate or optimise vehicles and drones acting as mobile base stations in a city: where should they go, and when do they save energy or capacity?"),
+    ("Sustainable 6G", "Measure and reduce the energy footprint of 6G network functions and orchestration, from models to testbed experiments."),
+    ("Wireless power for IoT", "Model and evaluate networks that power battery-less IoT devices wirelessly (SWIPT), using stochastic geometry and simulation."),
+    ("Learning without servers", "Implement and evaluate gossip learning among phones or IoT devices, and study when cooperation between devices pays off."),
+    ("Teams of autonomous agents", "Design decentralised planning algorithms for groups of drones or robots that must keep working when some members fail."),
+    ("Opportunistic communication", "Build or analyse apps that share information locally between nearby devices, for example after a disaster when the network is down."),
+]
+
+
+def student_projects():
+    topics = "".join(f'<article class="proj"><h3>{E(t)}</h3><p class="t">{E(d)}</p></article>' for t, d in STUDENT_TOPICS)
+    return f"""<h1>Student projects</h1>
+<p class="lede">I supervise Bachelor's and Master's theses, semester projects and internships at the Università di Torino and at HES-SO Valais-Wallis, and PhD students in networking and distributed systems. Projects are linked to my <a href="research.html">research</a> and often to ongoing <a href="projects.html">funded projects</a> with European partners.</p>
+<h2>Example topics</h2>
+<p>Each topic can be shaped into a Bachelor's, Master's or PhD project, with more emphasis on implementation or on modelling depending on your interests.</p>
+<div class="projs">{topics}</div>
+<h2>What you will do</h2>
 <ul class="plain">
-<li>Computer Networks (Sistemi Informativi II), Big Data, Mobile Networks and IoT, Multimedia Management and Processing – University of Foggia, 2020–2025</li>
-<li>Internet of Things: IoT protocols and communications – EPFL</li>
-<li>Post-Disaster Communications and Emergency Networks – COST RECODIS training school, Brussels</li>
-<li>Shared Medium and LAN Technologies – Universidad Carlos III de Madrid (adjunct professor), 2009–2011</li>
-<li>Teaching assistant at EPFL (Computer Networks, Performance Evaluation, C and C++ Programming) and at Politecnico di Torino (Java Programming)</li>
+<li>Work on an open research question with a clear, achievable scope.</li>
+<li>Combine analytical models, simulation, machine learning or prototyping, depending on the project.</li>
+<li>Collaborate with PhD students and, where possible, with partners in European projects; strong theses can lead to a publication.</li>
 </ul>
-<h2>Theses</h2>
-<p>I supervise Bachelor's, Master's and PhD theses on wireless and mobile networks, 6G, edge computing and distributed learning. If you are interested in a thesis, contact me by email with your CV and transcripts.</p>
+<h2>How to apply</h2>
+<p>Write to me by email with your CV, your transcript of records and a few lines on the topic or kind of work that interests you. Useful background: computer networks, probability, and programming in Python or C/C++.</p>
 <h2>Resources for students</h2>
 <ul class="plain"><li><a href="https://leboudec.github.io/leboudec/resources/paper.html">How to write a paper</a>, by Jean-Yves Le Boudec</li></ul>
 """
 
 
+PEOPLE_CURRENT = [
+    # (name, role and period, [(label, url)])
+    ("Laura Finarelli", "PhD candidate, since 2023 (with TU Berlin)",
+     [("HES-SO", "https://www.hevs.ch/en/collaborateurs/finarelli-206941"), ("TU Berlin", "https://www.tkn.tu-berlin.de/team/finarelli/")]),
+    ("Berk Buzcu", "PhD candidate, since 2025",
+     [("HES-SO", "https://people.hes-so.ch/en/profile/10071804451-berk-buzcu"), ("Google Scholar", "https://scholar.google.com/citations?user=THXz4A8AAAAJ")]),
+    ("Saira Bano", "Postdoctoral researcher, since 2025",
+     [("Publications", "https://iris.cnr.it/cris/rp/rp14228")]),
+    ("Dhekra Zaafrane", "PhD candidate, co-supervised, since 2023", []),
+]
+PEOPLE_ALUMNI = [
+    ("Biagio Boi", "PhD, University of Salerno, 2022–2026 (co-supervised)", [("Website", "https://biagioboi.github.io")]),
+    ("Mina Aghaei Dinani", "PhD, University of Neuchâtel, 2020–2025 · now AI engineer in industry",
+     [("LinkedIn", "https://www.linkedin.com/in/mina-aghaei-dinani/"), ("Thesis", "https://libra.unine.ch/bitstreams/e819e4a8-5fbf-47f0-b010-dbac3ff01871/download")]),
+    ("Nhat Dao Anh Nguyen", "PhD, University of Adelaide, 2022–2025 (co-supervised)", []),
+    ("Noelia Pérez Palma", "PhD, IMDEA Networks and UC3M, 2022 (co-supervised)", [("IMDEA Networks", "https://networks.imdea.org/en/?p=1516")]),
+    ("Gaetano Manzo", "PhD, University of Bern, 2016–2020", [("LinkedIn", "https://www.linkedin.com/in/gaetano-manzo/")]),
+    ("Christian Vitale", "PhD, UC3M and IMDEA Networks, 2012–2017 · now at KIOS CoE, University of Cyprus",
+     [("KIOS", "https://www.kios.ucy.ac.cy/people/christian-vitale/")]),
+    ("Luc Dufour", "PhD, 2017 (co-supervised)", []),
+    ("Kshitiz Verma", "PhD, UC3M and IMDEA Networks, 2010–2016 · now Associate Professor, JK Lakshmipat University",
+     [("JKLU", "https://jklu.edu.in/faculty/kshitiz-verma")]),
+    ("Alex Olivieri", "PhD, 2013–2016", []),
+    ("Shahzad Ali", "PhD, IMDEA Networks, 2010–2014", [("LinkedIn", "https://www.linkedin.com/in/shahzad-ali-374438a/")]),
+]
+
+
 def people():
-    cur = [("Mina Aghaei Dinani", "since 2020"), ("Laura Finarelli", "since 2023"), ("Berk Buzcu", "since 2025"),
-           ("Saira Bano", "since 2025"), ("Dhekra Zaafrane", "since 2023, co-supervised"), ("Biagio Boi", "2022–2026, co-supervised")]
-    alum = [("Nhat Dao Anh Nguyen", "2022–2025, co-supervised"), ("Gaetano Manzo", "2016–2020"), ("Christian Vitale", "2012–2017"),
-            ("Alex Olivieri", "2013–2016"), ("Kshitiz Verma", "2010–2016"), ("Shahzad Ali", "2010–2014"),
-            ("Noelia Pérez Palma", "co-supervised"), ("Luc Dufour", "co-supervised")]
-    li = lambda xs: "".join(f'<li><strong>{n}</strong><span>{d}</span></li>' for n, d in xs)
+    def li(xs):
+        out = []
+        for n, d, links in xs:
+            lk = "".join(f'<a href="{E(u)}">{E(l)}</a>' for l, u in links)
+            out.append(f'<li><strong>{E(n)}</strong><span>{E(d)}</span>{f"<span class=lk>{lk}</span>" if lk else ""}</li>')
+        return "".join(out)
     return f"""<h1>People</h1>
 <p class="lede">PhD students and postdoctoral researchers I supervise or have supervised.</p>
-<h2>Current</h2><ul class="people">{li(cur)}</ul>
-<h2>Alumni</h2><ul class="people">{li(alum)}</ul>
-<aside class="callout"><h2>Join</h2><p>Open positions are announced here and on LinkedIn. Spontaneous applications from strong candidates in networking, performance evaluation or machine learning are welcome: send your CV, transcripts and a short research statement.</p></aside>
+<h2>Current</h2><ul class="people">{li(PEOPLE_CURRENT)}</ul>
+<h2>Alumni</h2><ul class="people">{li(PEOPLE_ALUMNI)}</ul>
+<aside class="callout"><h2>Join</h2><p>Open positions are announced here and on LinkedIn. For theses and projects, see <a href="student-projects.html">student projects</a>.</p></aside>
 """
 
 
@@ -342,6 +419,7 @@ def cv():
            ("General Chair", "IEEE CCAuto 2020, IEEE MobileEdgeCom 2019, IEEE AUTO5G 2018–2019, IEEE EdgeCom 2016–2018, IEEE E2IoT 2015"),
            ("General Chair", "2nd IMDEA Workshop on Energy Efficiency and Networking, 2010")]
     return f"""<h1>Curriculum vitae</h1>
+<p class="links dl"><a href="{CV_PDF}" download="Gianluca-Rizzo-CV.pdf">Download CV (PDF) ↓</a></p>
 <h2>Short bio</h2>
 <p class="bio">Gianluca Rizzo is Associate Professor of Computer Science at the Università di Torino, Italy, and Senior Research Associate at the University of Applied Sciences of Western Switzerland (HES-SO Valais-Wallis). He received his PhD in Computer Science from EPFL in 2008 and his MSc in Electronics Engineering from Politecnico di Torino in 2001. He was a researcher at IMDEA Networks in Madrid (2009–2013), worked at ABB and Telecom Italia Lab, and was Associate Professor at the University of Foggia (2020–2024). His research focuses on the design and performance evaluation of distributed and wireless systems, including sustainable 6G networks, mobile base stations and decentralised learning at the network edge. He is a TPC lead member of IEEE INFOCOM, Area Editor of Elsevier Computer Communications, and an IEEE Senior Member.</p>
 <p class="note">This bio may be reused for talks and events.</p>
@@ -414,6 +492,46 @@ FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect w
 """
 
 
+def cv_print_html(pubs):
+    """A standalone, print-ready page (CV + full publication list) used to generate cv.pdf."""
+    body = cv().replace(f'<p class="links dl"><a href="{CV_PDF}" download="Gianluca-Rizzo-CV.pdf">Download CV (PDF) ↓</a></p>', "")
+    body = body.replace('<p class="note">This bio may be reused for talks and events.</p>', "")
+    head = (f'<p class="cvhead">{TITLES_LINE}<br>Università di Torino, Department of Computer Science, Via Pessinetto 12, 10149 Torino, Italy · {E(EM["unito"])}<br>'
+            f'HES-SO Valais-Wallis, Institute of Informatics, Technopole 3, 3960 Sierre, Switzerland · {E(EM["hevs"])}<br>'
+            f'{BASE} · ORCID 0000-0001-7129-4972</p>')
+    body = body.replace("<h1>Curriculum vitae</h1>", f"<h1>Gianluca Rizzo</h1>{head}", 1)
+    pl = ['<h2>Publications</h2>']
+    for t, name in TYPES.items():
+        items = sorted([p for p in pubs if p["type"] == t], key=lambda p: -p["year"])
+        pl.append(f'<h3>{name}</h3><ol class="pubs">' + "".join(pub_li(p) for p in items) + '</ol>')
+    css = (ROOT / "style.css").read_text(encoding="utf-8")
+    return f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<title>Gianluca Rizzo – Curriculum vitae</title><style>{css}
+@page{{size:A4;margin:16mm 16mm 18mm}}
+body{{font:10pt/1.45 "Helvetica Neue",Arial,sans-serif;color:#111;background:#fff}}
+h1,h2,h3{{font-family:Georgia,serif}} h1{{font-size:24pt;margin:0 0 4pt}} h2{{font-size:14pt;margin:16pt 0 6pt;border-bottom:1px solid #ccc;padding-bottom:2pt}} h3{{font-size:11pt;margin:10pt 0 4pt}}
+.cvhead{{color:#444;font-size:9pt;margin:0 0 6pt}} .tbl{{font-size:10pt}} .tbl td{{padding:4pt 8pt 4pt 0}}
+.pubs li{{padding:4pt 0;break-inside:avoid}} .pubs .a,.pubs .m{{font-size:9pt}} a{{color:#111;text-decoration:none}}
+.badge{{font-size:8pt}} h2,h3{{break-after:avoid}}
+</style></head><body><main><div class="wrap" style="max-width:none;padding:0">{body}{"".join(pl)}</div></main></body></html>"""
+
+
+TITLES_LINE = "Associate Professor of Computer Science, Università di Torino · Senior Research Associate, HES-SO Valais-Wallis"
+
+
+def make_pdf(html_path, pdf_path):
+    import shutil, subprocess, tempfile
+    chrome = next((c for c in ("google-chrome", "chromium", "chromium-browser") if shutil.which(c)), None)
+    if not chrome:
+        print("no Chrome found: cv.pdf not regenerated")
+        return
+    with tempfile.TemporaryDirectory() as prof:
+        subprocess.run([chrome, "--headless=new", "--no-sandbox", "--disable-gpu", f"--user-data-dir={prof}",
+                        "--no-pdf-header-footer", f"--print-to-pdf={pdf_path}", html_path.as_uri()],
+                       check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=120)
+    print(f"wrote {pdf_path.name} ({pdf_path.stat().st_size // 1024} KB)")
+
+
 def main():
     pubs = load_pubs()
     pages = [
@@ -421,9 +539,10 @@ def main():
         ("research.html", "Research", "Research of Gianluca Rizzo: sustainable 6G networks, moving networks, decentralised learning at the edge, multi-agent coordination and performance modelling.", research(pubs), None),
         ("projects.html", "Projects", "Research projects led by Gianluca Rizzo, including the Horizon Europe project UNITY-6G and SNSF projects.", projects(), None),
         ("publications.html", "Publications", "Publications of Gianluca Rizzo: journal articles, conference papers, book chapters and patents.", publications_page(pubs), None),
-        ("teaching.html", "Teaching", "Courses taught by Gianluca Rizzo at the Università di Torino and HES-SO Valais-Wallis, and thesis supervision.", teaching(), None),
+        ("teaching.html", "Teaching", "Courses taught by Gianluca Rizzo at the Università di Torino, HES-SO Valais-Wallis and elsewhere, with links to the course pages.", teaching(), None),
+        ("student-projects.html", "Student projects", "Bachelor's, Master's and PhD projects with Gianluca Rizzo on 6G networks, edge learning and network performance modelling.", student_projects(), None),
         ("people.html", "People", "PhD students and postdocs supervised by Gianluca Rizzo.", people(), None),
-        ("cv.html", "CV", "Curriculum vitae of Gianluca Rizzo: positions, education, awards, service and talks.", cv(), None),
+        ("cv.html", "CV", "Curriculum vitae of Gianluca Rizzo: positions, education, awards, service and talks. PDF download available.", cv(), None),
     ]
     for fname, title, desc, body, ld in pages:
         (ROOT / fname).write_text(page(fname, title, desc, body, ld), encoding="utf-8")
@@ -432,6 +551,9 @@ def main():
     (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n', encoding="utf-8")
     (ROOT / "robots.txt").write_text(f"User-agent: *\nDisallow: /network/\nDisallow: /src/\n\nSitemap: {BASE}sitemap.xml\n", encoding="utf-8")
     print(f"built {len(pages)} pages, {len(pubs)} publications")
+    printable = SRC / "cv-print.html"
+    printable.write_text(cv_print_html(pubs), encoding="utf-8")
+    make_pdf(printable, ROOT / CV_PDF)
 
 
 if __name__ == "__main__":
