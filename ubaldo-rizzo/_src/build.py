@@ -46,16 +46,20 @@ byimg = {w["i"][0]: w for w in works}
 # restored.json lists the images whose restoration was reviewed and approved; all others keep the original photo.
 try: RESTORED = set(json.load(open(os.path.join(HERE, "restored.json"))))
 except FileNotFoundError: RESTORED = set()
-def disp(im): return f"r/{im}" if im in RESTORED and os.path.exists(os.path.join(OUT, "img", "r", im)) else im
+import hashlib
+def ver(rel):  # cache-busting suffix: changes whenever the image file changes
+    try: return rel + "?v=" + hashlib.md5(open(os.path.join(OUT, "img", rel), "rb").read()).hexdigest()[:8]
+    except OSError: return rel
+def disp(im): return ver(f"r/{im}") if im in RESTORED and os.path.exists(os.path.join(OUT, "img", "r", im)) else im
 for w in works:  # lead with a restored view when the main photo could not be restored
     if w["i"][0] not in RESTORED:
         r = [im for im in w["i"] if im in RESTORED]
         if r: w["i"] = [r[0]] + [im for im in w["i"] if im != r[0]]
 def cardimg(im):
-    return f"card/{im}" if im in RESTORED and os.path.exists(os.path.join(OUT, "img", "card", im)) else disp(im)
+    return ver(f"card/{im}") if im in RESTORED and os.path.exists(os.path.join(OUT, "img", "card", im)) else disp(im)
 def cutout(im):
     c = os.path.splitext(im)[0] + ".webp"
-    return f"cut/{c}" if im in RESTORED and os.path.exists(os.path.join(OUT, "img", "cut", c)) else None
+    return ver(f"cut/{c}") if im in RESTORED and os.path.exists(os.path.join(OUT, "img", "cut", c)) else None
 
 def meta(w, lang="it"):
     m = w["m"] if lang == "it" else w["me"]
@@ -335,7 +339,7 @@ def journey():
             w = next(x for x in works if im in x["i"])
             co = cutout(im)
             src = co or im
-            wide = Image.open(f"{OUT}/img/{src}").size
+            wide = Image.open(f"{OUT}/img/{src.split('?')[0]}").size
             cls = (' class="cut wide"' if co else ' class="wide"') if wide[0] > wide[1] * 1.15 else (' class="cut"' if co else "")
             secs.append(f"""<section class="j-work{' flip' if j % 2 else ''}" data-tone="{tone}" data-ch="{key}">
   <div class="j-fig"><img loading="lazy" src="img/{src}" alt="{esc(w['t'])}"{cls}></div>
