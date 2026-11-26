@@ -62,10 +62,11 @@ PERSON = {
 }
 
 
-def page(fname, title, desc, body, jsonld=None):
+def page(fname, title, desc, body, jsonld=None, current=None):
     full_title = ME if fname == "index.html" else f"{title} – {ME}"
     url = BASE if fname == "index.html" else BASE + fname
-    nav = "".join(f'<li><a href="{f}"{" aria-current=page" if f == fname else ""}>{n}</a></li>' for f, n in NAV)
+    cur = current or fname
+    nav = "".join(f'<li><a href="{f}"{" aria-current=page" if f == cur else ""}>{n}</a></li>' for f, n in NAV)
     ld = f'<script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>' if jsonld else ""
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -343,76 +344,206 @@ def teaching():
 """
 
 
-# Bachelor, Master and PhD projects. Ongoing projects are listed by topic only (no student names) for BSc/MSc;
-# PhD students appear on the People page. Source: Notion (student status page, research ideas, PhD position texts), Nov 2026.
-LEVELS = [
-    {"id": "bachelor", "title": "Bachelor projects",
-     "intro": "Bachelor's theses and final internships for students of Computer Science at the Università di Torino and of Business Information "
-              "Technology at HES-SO Valais-Wallis. A Bachelor project typically focuses on implementation, simulation or measurement, with a clear "
-              "and achievable goal for the duration of the thesis.",
-     "ongoing": [
-         ("Urban mobile network performance simulator", "Università di Torino · Bachelor thesis"),
-         ("Mapping CAN/CAN-FD in-vehicle traffic onto Time-Sensitive Networking (TSN) while preserving its timing requirements", "Università di Torino · internship and thesis"),
-         ("Carbon- and cost-aware energy accounting for edge data centres, with an industrial partner of UNITY-6G", "Università di Torino · internship and thesis, starting"),
-     ],
-     "open_title": "Open topics",
-     "open": [
-         ("Road-ice monitoring with sensors on buses", "Collect and analyse road-surface data from sensors on public buses over LoRaWAN or NB-IoT, as a basis for winter road-safety services."),
-         ("Gossip learning on real devices", "Implement serverless distributed learning on phones or Raspberry Pis and measure accuracy, energy and traffic."),
-         ("Opportunistic information sharing for emergencies", "Build or evaluate an app that shares information between nearby devices when the network is down."),
-     ]},
-    {"id": "master", "title": "Master projects",
-     "intro": "Master's theses and semester projects for students of the Master's degree in Computer Science at the Università di Torino and for "
-              "students from partner universities. A Master project tackles an open research question, combining a model or an algorithm with its "
-              "evaluation; strong theses often lead to a publication at an international conference.",
-     "ongoing": [
-         ("Moving base stations in a realistic urban scenario (SUMO, Luxembourg LuST traffic model)", "Università di Torino · thesis co-supervised with TU Berlin"),
-     ],
-     "open_title": "Open topics",
-     "open": [
-         ("Age of information in IoT networks", "Mean-field models of how fresh the information spread by gossip is in large IoT deployments."),
-         ("Handovers at scale", "Mean-field approximations to compute handover rates and their cost in dense, mobile networks."),
-         ("Performance guarantees for distributed learning", "Use network calculus to bound the delay and convergence of distributed and federated learning algorithms."),
-         ("Communication-efficient federated and gossip learning", "Compress models and updates to cut traffic and energy while keeping accuracy."),
-         ("LEO satellites for emergency communications", "Stochastic geometry models of low-Earth-orbit satellite networks to choose energy-optimal transmit powers."),
-         ("Wireless power for vehicles and IoT", "Assess wireless power transfer to battery-less sensors and vehicles: coverage, energy and cost."),
-         ("Economics of edge computing", "Cost models to decide where and when operators should deploy edge (MEC) resources."),
-     ]},
-    {"id": "phd", "title": "PhD projects",
-     "intro": "PhD positions are funded through research projects at the Università di Torino and at HES-SO Valais-Wallis, often jointly with "
-              "partner universities. Candidates should hold (or be about to obtain) a Master's degree in computer science, electrical or "
-              "telecommunications engineering, or a related field, with a solid background in networking, probability or machine learning. "
-              "Open positions are announced on this site and on LinkedIn; spontaneous applications from strong candidates are welcome.",
-     "ongoing": [
-         ("Moving networks: vehicles as mobile base stations in urban radio access networks", "Laura Finarelli · HES-SO, with TU Berlin"),
-         ("Energy-aware orchestration and digital twins for sustainable 6G networks", "Berk Buzcu · HES-SO, within UNITY-6G"),
-     ],
-     "open_title": "Past PhD positions",
-     "open": [
-         ("6G wireless communications", "PhD student / research assistant at HES-SO Valais-Wallis, 2024."),
-         ("Drone-based 6G communications", "PhD position at HES-SO Valais-Wallis, 2022."),
-         ("Energy-efficient network management and planning", "PhD at EPFL, co-supervised with Prof. Catherine Dehollain, 2020."),
-     ]},
-]
+# Bachelor, Master and PhD projects. Rule: one project, one description, one sub-page (sp-<slug>.html).
+# Ongoing BSc/MSc projects are listed by topic only (no student names); PhD students appear on the People page.
+# Source: Notion (student status page, research-idea notes, PhD position texts), November 2026.
+# Fields: slug, title, status (ongoing/open/past), context, summary (one line for the overview),
+#         description (paragraphs), work (bullets), background (open topics), related (publication titles), theme (research anchor)
+SP = {
+ "bachelor": [
+  dict(slug="urban-network-simulator", status="ongoing", title="Urban mobile network performance simulator",
+       context="Università di Torino · Bachelor thesis",
+       summary="A simulator to estimate the coverage and capacity of a mobile network in a city.",
+       description=["The goal is a simulation tool that, given the position of base stations and the distribution of users in a city, estimates the coverage and capacity that a mobile network can offer.",
+                    "The simulator is meant as a basis for later studies on dynamic networks, such as base stations mounted on vehicles."],
+       work=["Model base stations, users and radio propagation in an urban area", "Implement and validate the simulator", "Compare network configurations through simulation experiments"],
+       related=["Mobile Networks on the Move: Optimizing Moving Base Stations Dynamics in Urban Scenarios"], theme="moving-networks"),
+  dict(slug="can-tsn-mapping", status="ongoing", title="Mapping CAN/CAN-FD in-vehicle traffic onto Time-Sensitive Networking",
+       context="Università di Torino · internship and Bachelor thesis",
+       summary="Carry in-vehicle CAN/CAN-FD traffic over TSN while keeping its timing guarantees.",
+       description=["Vehicles are moving from CAN and CAN-FD buses to Ethernet-based Time-Sensitive Networking (TSN). This project studies how CAN/CAN-FD traffic can be mapped onto TSN, and back, while preserving its timing requirements.",
+                    "The work starts with a gap analysis between the two technologies and continues with a mapping and its evaluation."],
+       work=["Analyse the timing requirements of CAN/CAN-FD traffic", "Compare them with the mechanisms offered by TSN", "Design and evaluate a mapping between the two"],
+       related=["Stability and Delay Bounds in Heterogeneous Networks of Aggregate Schedulers"], theme="methods"),
+  dict(slug="carbon-aware-edge", status="ongoing", title="Carbon- and cost-aware energy accounting for edge data centres",
+       context="Università di Torino · internship and thesis, with an industrial partner of UNITY-6G · starting",
+       summary="How much CO₂ and money do edge workloads really save when energy is valued at the local grid's carbon intensity?",
+       description=["Edge data centres draw power from distribution grids whose carbon intensity changes from place to place and hour to hour. This project asks how much CO₂ and money energy-saving mechanisms for edge computing really save when energy is valued at the local (locational) carbon intensity of the grid rather than at a national average.",
+                    "It combines carbon flow tracing in distribution grids with live energy measurements from a Kubernetes cluster."],
+       work=["Compute hourly carbon-intensity profiles at the grid node hosting an edge site, using carbon flow tracing", "Build a service that converts measured energy into cost and CO₂ in near real time", "Compare average and locational carbon accounting, and the effect of shifting deferrable workloads in time"],
+       related=["Energy-Aware Multi-Domain Orchestration Architecture for Sustainable 6G Networks"], theme="sustainable-6g"),
+  dict(slug="road-ice-monitoring", status="open", title="Road-ice monitoring with sensors on buses",
+       context="HES-SO Valais-Wallis or Università di Torino · Bachelor thesis",
+       summary="Road-surface data from sensors on public buses, sent over LoRaWAN or NB-IoT.",
+       description=["Icy roads are a major winter risk in mountain regions. Public buses travel the same roads every day and can carry sensors that measure road-surface conditions along their routes.",
+                    "This project builds and evaluates a first version of such a system, sending the measurements over low-power wide-area networks (LoRaWAN or NB-IoT) and turning them into a map of road conditions."],
+       work=["Choose sensors and an IoT connectivity option (LoRaWAN or NB-IoT)", "Collect and clean data along bus routes", "Visualise road conditions and assess coverage, delay and energy use"],
+       background="Interest in IoT and data analysis; programming in Python.", related=[], theme="opportunistic"),
+  dict(slug="gossip-learning-devices", status="open", title="Gossip learning on real devices",
+       context="Università di Torino or HES-SO Valais-Wallis · Bachelor thesis",
+       summary="Serverless distributed learning on phones or Raspberry Pis: accuracy, energy and traffic.",
+       description=["In gossip learning, devices train machine-learning models together by exchanging models with their neighbours, without a central server. Most results so far come from simulations.",
+                    "This project implements gossip learning on real devices and measures what happens in practice."],
+       work=["Implement a gossip learning protocol on phones or Raspberry Pis", "Run experiments with a simple learning task", "Measure accuracy, energy consumption and network traffic"],
+       background="Programming in Python; basic machine learning.",
+       related=["Floating Gossip: Serverless Distributed Learning in Dynamic Scenarios", "The Upsides of Turbulence: Baselining Gossip Learning in Dynamic Settings"], theme="edge-learning"),
+  dict(slug="emergency-info-sharing", status="open", title="Opportunistic information sharing for emergencies",
+       context="Università di Torino or HES-SO Valais-Wallis · Bachelor thesis",
+       summary="An app that shares information between nearby devices when the network is down.",
+       description=["After a disaster, the mobile network is often unavailable exactly when people need information most. Devices can still exchange messages directly with those nearby, so that information \"floats\" in the area where it is relevant.",
+                    "This project builds or evaluates an app based on this idea, building on our earlier Floater prototype."],
+       work=["Study the Floating Content approach and existing prototypes", "Implement or extend an app for device-to-device sharing", "Evaluate it in experiments or simulations"],
+       background="Mobile or network programming.",
+       related=["Floater: Post-Disaster Communications via Floating Content", "Situation Awareness via Information Hovering in Post-Disaster Communications"], theme="opportunistic"),
+ ],
+ "master": [
+  dict(slug="moving-bs-sumo", status="ongoing", title="Moving base stations in a realistic urban scenario",
+       context="Università di Torino · thesis co-supervised with TU Berlin",
+       summary="Vehicles as mobile base stations, evaluated with SUMO and the Luxembourg LuST traffic scenario.",
+       description=["Base stations mounted on vehicles can bring capacity where and when it is needed. This thesis evaluates the idea in a realistic city, using the SUMO traffic simulator and the Luxembourg (LuST) traffic scenario."],
+       work=["Set up the urban mobility scenario in SUMO", "Model mobile base stations and user demand", "Evaluate capacity, resilience and energy compared with fixed infrastructure"],
+       related=["Feasibility of Using Mobile Base Stations for Improved Resilience and Reduced Energy Footprint", "Assessing the Benefits of Ground Vehicles as Moving Urban Base Stations"], theme="moving-networks"),
+  dict(slug="age-of-information-iot", status="open", title="Age of information in IoT networks",
+       context="Università di Torino · Master thesis",
+       summary="Mean-field models of how fresh the information spread by gossip is in large IoT deployments.",
+       description=["In many IoT applications what matters is not only whether information arrives, but how recent it is. This project develops mean-field models of the age of information when updates spread through a large IoT network by gossip, and uses them to tune the protocol."],
+       work=["Model gossip-based dissemination in a large IoT network", "Derive mean-field approximations of the age of information", "Validate them by simulation and use them to optimise the protocol"],
+       background="Probability and stochastic processes; programming for simulation.",
+       related=["Storage Capacity of Opportunistic Information Dissemination Systems"], theme="methods"),
+  dict(slug="handovers-at-scale", status="open", title="Handovers at scale",
+       context="Università di Torino · Master thesis",
+       summary="Mean-field approximations of handover rates and their cost in dense, mobile networks.",
+       description=["In dense networks with many mobile users, handovers between cells become frequent and costly. This project uses mean-field approximations to compute handover rates efficiently in large networks and to study how network design affects them."],
+       work=["Model user mobility and cell layout", "Develop a mean-field approximation of handover rates", "Compare it with simulation and use it to evaluate network configurations"],
+       background="Probability and stochastic processes; programming for simulation.",
+       related=["A Gossip Learning Approach to Urban Trajectory Nowcasting for Anticipatory RAN Management"], theme="methods"),
+  dict(slug="network-calculus-learning", status="open", title="Performance guarantees for distributed learning",
+       context="Università di Torino · Master thesis",
+       summary="Network calculus to bound the delay and convergence of distributed and federated learning.",
+       description=["Distributed and federated learning algorithms run over networks whose delays affect how fast they converge. Network calculus provides worst-case bounds on delays in networks. This project uses it to derive guarantees on the performance of learning algorithms."],
+       work=["Model the communication pattern of a distributed learning algorithm", "Apply network calculus to bound its delays", "Relate the bounds to convergence and validate them experimentally"],
+       background="Interest in theory; probability or queueing; basic machine learning.",
+       related=["Stability and Delay Bounds in Heterogeneous Networks of Aggregate Schedulers", "Floating Gossip: Serverless Distributed Learning in Dynamic Scenarios"], theme="methods"),
+  dict(slug="communication-efficient-learning", status="open", title="Communication-efficient federated and gossip learning",
+       context="Università di Torino · Master thesis",
+       summary="Compress models and updates to cut traffic and energy while keeping accuracy.",
+       description=["Exchanging full models is the main cost of federated and gossip learning on mobile devices. This project studies compression of models and updates, and when it reduces traffic and energy without hurting accuracy."],
+       work=["Survey compression techniques for distributed learning", "Integrate them into a federated or gossip learning framework", "Measure the trade-off between accuracy, traffic and energy"],
+       background="Machine learning; programming in Python.",
+       related=["Context-Aware Orchestration of Energy-Efficient Gossip Learning Schemes", "GRAPE: Gossip-Based Representation Alignment Using Prototypical Embeddings for Heterogeneous IoT Devices"], theme="edge-learning"),
+  dict(slug="leo-emergency", status="open", title="LEO satellites for emergency communications",
+       context="Università di Torino · Master thesis",
+       summary="Stochastic geometry models of low-Earth-orbit satellite networks to choose energy-optimal transmit powers.",
+       description=["Low-Earth-orbit (LEO) satellite constellations can provide connectivity when ground networks fail. This project adapts stochastic geometry models developed for energy-efficient cellular networks to LEO networks, to choose transmit powers that save energy while guaranteeing service to first responders."],
+       work=["Model a LEO constellation and its users with stochastic geometry", "Derive coverage and energy metrics", "Optimise transmit power under service constraints"],
+       background="Probability; interest in wireless communications.",
+       related=["Energy-Optimal Base Station Density in Cellular Access Networks with Sleep Modes", "A Stochastic Geometry Approach to Performance Modeling of SWIPT Vehicular Networks"], theme="methods"),
+  dict(slug="wireless-power", status="open", title="Wireless power for vehicles and IoT",
+       context="Università di Torino · Master thesis",
+       summary="Wireless power transfer to battery-less sensors and vehicles: coverage, energy and cost.",
+       description=["Simultaneous wireless information and power transfer (SWIPT) lets networks power small devices over the air. This project assesses where wireless power transfer is worth it, for battery-less IoT sensors and for vehicles, in terms of coverage, energy and cost."],
+       work=["Model a network that delivers both data and power", "Evaluate coverage and energy efficiency", "Identify configurations and scenarios where it pays off"],
+       background="Probability; interest in wireless networks.",
+       related=["Green Operations of SWIPT Networks: The Role of End-User Devices", "Energy-Aware Load Shifting in SWIPT-Enabled IoT Networks"], theme="sustainable-6g"),
+  dict(slug="edge-economics", status="open", title="Economics of edge computing",
+       context="Università di Torino · Master thesis",
+       summary="Cost models to decide where and when operators should deploy edge (MEC) resources.",
+       description=["Edge computing brings computation close to users, but deploying it everywhere is expensive. This project builds cost and demand models to decide where and when operators should deploy edge (MEC) resources."],
+       work=["Model demand for edge services and deployment costs", "Formulate the deployment decision as an optimisation problem", "Evaluate strategies in realistic scenarios"],
+       background="Optimisation or economics of networks; programming.",
+       related=["V-Edge: Virtual Edge Computing as an Enabler for Novel Microservices and Cooperative Computing"], theme="edge-learning"),
+ ],
+ "phd": [
+  dict(slug="phd-moving-networks", status="ongoing", title="Moving networks: vehicles as mobile base stations in urban radio access networks",
+       context="PhD thesis of Laura Finarelli · HES-SO Valais-Wallis, with TU Berlin",
+       summary="When and how vehicles acting as base stations improve urban radio access networks.",
+       description=["This PhD studies networks in which part of the radio access infrastructure moves: base stations mounted on vehicles that follow city traffic. It develops models and optimisation methods to decide when such moving networks pay off in capacity and energy, and how to operate them."],
+       work=["Models of vehicular-enhanced radio access networks with in-band backhaul", "Optimisation of the dynamics of moving base stations", "Energy-efficient network sharing between operators"],
+       related=["Modeling and Optimization of Vehicular-Enhanced Urban RANs with In-Band Backhaul", "Mobile Networks on the Move: Optimizing Moving Base Stations Dynamics in Urban Scenarios", "Sharing is Caring: Analysis of Hybrid Network Sharing Strategies for Energy Efficient Multi-Operator Cellular Systems"], theme="moving-networks"),
+  dict(slug="phd-sustainable-6g", status="ongoing", title="Energy-aware orchestration and digital twins for sustainable 6G networks",
+       context="PhD thesis of Berk Buzcu · HES-SO Valais-Wallis, within UNITY-6G",
+       summary="Orchestrating multi-domain 6G networks to cut their energy footprint, with digital twins.",
+       description=["This PhD studies how to orchestrate 6G networks spanning several technological domains so that they use less energy, and how digital twins of the network can support these decisions. It is carried out within the Horizon Europe project UNITY-6G."],
+       work=["Energy-aware multi-domain orchestration architectures", "Digital twins for intent-driven, sustainable network management"],
+       related=["Energy-Aware Multi-Domain Orchestration Architecture for Sustainable 6G Networks", "Modular Multi-Domain Digital Twin Architecture: Sustainable Intent-Driven 6G Management"], theme="sustainable-6g"),
+  dict(slug="phd-6g-wireless-2024", status="past", title="6G wireless communications",
+       context="PhD student / research assistant position · HES-SO Valais-Wallis · 2024",
+       summary="PhD student / research assistant position at HES-SO Valais-Wallis, 2024.",
+       description=["PhD student and research assistant position on 6G wireless communications at the Institute of Informatics of HES-SO Valais-Wallis, advertised in 2024. The position has been filled."],
+       work=[], related=[], theme="sustainable-6g"),
+  dict(slug="phd-drone-6g-2022", status="past", title="Drone-based 6G communications",
+       context="PhD position · HES-SO Valais-Wallis · 2022",
+       summary="PhD position at HES-SO Valais-Wallis, 2022.",
+       description=["PhD position on drone-based 6G communications at HES-SO Valais-Wallis, advertised in 2022. The position has been filled."],
+       work=[], related=[], theme="moving-networks"),
+ ],
+}
+LEVEL_INFO = {
+    "bachelor": ("Bachelor projects", "Bachelor's theses and final internships for students of Computer Science at the Università di Torino and of Business Information "
+                 "Technology at HES-SO Valais-Wallis. A Bachelor project typically focuses on implementation, simulation or measurement, with a clear "
+                 "and achievable goal for the duration of the thesis.", "Open topics"),
+    "master": ("Master projects", "Master's theses and semester projects for students of the Master's degree in Computer Science at the Università di Torino and for "
+               "students from partner universities. A Master project tackles an open research question, combining a model or an algorithm with its "
+               "evaluation; strong theses often lead to a publication at an international conference.", "Open topics"),
+    "phd": ("PhD projects", "PhD positions are funded through research projects at the Università di Torino and at HES-SO Valais-Wallis, often jointly with "
+            "partner universities. Candidates should hold (or be about to obtain) a Master's degree in computer science, electrical or "
+            "telecommunications engineering, or a related field, with a solid background in networking, probability or machine learning. "
+            "Open positions are announced on this site and on LinkedIn; spontaneous applications from strong candidates are welcome.", "Past PhD positions"),
+}
+STATUS_LABEL = {"ongoing": "Ongoing", "open": "Open topic", "past": "Past position"}
+LEVEL_LABEL = {"bachelor": "Bachelor", "master": "Master", "phd": "PhD"}
+SP_INDEX = "student-projects.html"
+
+
+def sp_file(item):
+    return f"sp-{item['slug']}.html"
 
 
 def student_projects():
-    toc = "".join(f'<li><a href="#{l["id"]}">{l["title"]}</a></li>' for l in LEVELS)
+    toc = "".join(f'<li><a href="#{lv}">{LEVEL_INFO[lv][0]}</a></li>' for lv in SP)
     secs = []
-    for l in LEVELS:
-        ongoing = "".join(f'<li><strong>{E(t)}</strong><span>{E(n)}</span></li>' for t, n in l["ongoing"])
-        cards = "".join(f'<article class="proj"><h4>{E(t)}</h4><p class="t">{E(d)}</p></article>' for t, d in l["open"])
-        secs.append(f'<section class="level" id="{l["id"]}"><h2>{l["title"]}</h2><p>{E(l["intro"])}</p>'
-                    f'<h3>Ongoing</h3><ul class="ongoing">{ongoing}</ul>'
-                    f'<h3>{l["open_title"]}</h3><div class="projs">{cards}</div></section>')
+    for lv, items in SP.items():
+        title, intro, open_title = LEVEL_INFO[lv]
+        ongoing = "".join(f'<li><a href="{sp_file(i)}">{E(i["title"])}</a><span>{E(i["context"])}</span></li>' for i in items if i["status"] == "ongoing")
+        cards = "".join(f'<a class="card" href="{sp_file(i)}"><strong>{E(i["title"])}</strong><span>{E(i["summary"])}</span></a>'
+                        for i in items if i["status"] != "ongoing")
+        secs.append(f'<section class="level" id="{lv}"><h2>{title}</h2><p>{E(intro)}</p>'
+                    + (f'<h3>Ongoing</h3><ul class="ongoing">{ongoing}</ul>' if ongoing else "")
+                    + (f'<h3>{open_title}</h3><div class="cards">{cards}</div>' if cards else "") + '</section>')
     return f"""<h1>Bachelor, Master and PhD projects</h1>
-<p class="lede">I supervise Bachelor's and Master's theses, internships and PhD students at the Università di Torino and at HES-SO Valais-Wallis. Projects are linked to my <a href="research.html">research</a> and often to ongoing <a href="projects.html">funded projects</a> with European partners.</p>
+<p class="lede">I supervise Bachelor's and Master's theses, internships and PhD students at the Università di Torino and at HES-SO Valais-Wallis. Projects are linked to my <a href="research.html">research</a> and often to ongoing <a href="projects.html">funded projects</a> with European partners. Select a project to read its description.</p>
 <nav class="toc" aria-label="Levels"><ul>{toc}<li><a href="#apply">How to apply</a></li></ul></nav>
 {"".join(secs)}
 <section id="apply"><h2>How to apply</h2>
 <p>Write to me by email with your CV, your transcript of records, the level of project you are looking for (Bachelor, Master or PhD) and a few lines on the topic or kind of work that interests you. Open topics are starting points: we shape the final project together. Useful background: computer networks, probability, and programming in Python or C/C++.</p></section>
 <h2>Resources for students</h2>
 <ul class="plain"><li><a href="https://leboudec.github.io/leboudec/resources/paper.html">How to write a paper</a>, by Jean-Yves Le Boudec</li></ul>
+"""
+
+
+def sp_page(level, item, pubs):
+    by_title = {p["title"]: p for p in pubs}
+    theme = next((n for i, n, *_ in THEMES if i == item["theme"]), "")
+    desc = "".join(f"<p>{E(x)}</p>" for x in item["description"])
+    work_h = {"ongoing": "What the project covers", "open": "What you will do", "past": ""}[item["status"]]
+    work = f'<h2>{work_h}</h2><ul class="plain">' + "".join(f"<li>{E(w)}</li>" for w in item["work"]) + "</ul>" if item["work"] else ""
+    bg = f'<h2>Background</h2><p>{E(item["background"])}</p>' if item.get("background") else ""
+    rel = [by_title[t] for t in item["related"] if t in by_title]
+    relh = f'<h2>Related publications</h2><ol class="pubs">' + "".join(pub_li(p) for p in rel) + "</ol>" if rel else ""
+    them = f'<p class="more">Research theme: <a href="research.html#{item["theme"]}">{E(theme)}</a></p>' if theme else ""
+    if item["status"] == "open":
+        cta = (f'<aside class="callout"><h2>Interested?</h2><p>Write to me at {MAIL["unito"]} with your CV, your transcript of records and a few lines on why this topic '
+               f'interests you. The topic is a starting point: we shape the final project together.</p></aside>')
+    elif item["status"] == "ongoing":
+        cta = f'<aside class="callout"><h2>Similar topics</h2><p>This project is under way. For related topics, see the <a href="{SP_INDEX}#{level}">open {LEVEL_LABEL[level]} topics</a> or write to me.</p></aside>'
+    else:
+        cta = f'<aside class="callout"><h2>Current positions</h2><p>This position has been filled. Open positions are announced on the <a href="{SP_INDEX}#phd">PhD projects</a> page and on LinkedIn.</p></aside>'
+    tags = f'<p class="tags"><span>{LEVEL_LABEL[level]}</span><span>{STATUS_LABEL[item["status"]]}</span></p>'
+    return f"""<p class="crumb"><a href="{SP_INDEX}#{level}">← {LEVEL_INFO[level][0]}</a></p>
+<h1>{E(item["title"])}</h1>
+{tags}<p class="note">{E(item["context"])}</p>
+<div class="spbody">{desc}{work}{bg}{relh}{them}</div>
+{cta}
 """
 
 
@@ -620,6 +751,13 @@ def main():
     ]
     for fname, title, desc, body, ld in pages:
         (ROOT / fname).write_text(page(fname, title, desc, body, ld), encoding="utf-8")
+    for old in ROOT.glob("sp-*.html"):
+        old.unlink()
+    for lv, items in SP.items():
+        for it in items:
+            pages.append((sp_file(it), it["title"], f"{LEVEL_LABEL[lv]} project: {it['summary']}", None, None))
+            (ROOT / sp_file(it)).write_text(page(sp_file(it), it["title"], f"{LEVEL_LABEL[lv]} project: {it['summary']}",
+                                                 sp_page(lv, it, pubs), None, current=SP_INDEX), encoding="utf-8")
     (ROOT / "favicon.svg").write_text(FAVICON, encoding="utf-8")
     urls = "".join(f"<url><loc>{BASE if f == 'index.html' else BASE + f}</loc><lastmod>{TODAY}</lastmod></url>" for f, *_ in pages)
     (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n', encoding="utf-8")
