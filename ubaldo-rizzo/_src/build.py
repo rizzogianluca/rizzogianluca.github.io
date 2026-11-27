@@ -240,22 +240,43 @@ def cappella3d():
 
 # ---------------------------------------------------------------- vita
 def vita():
+    from bio import ESSAY_IT, ESSAY_EN, SIG, BIO_IT, BIO_EN, EVENTS
     p = "../"
     years = {}
     for w in works: years.setdefault(w.get("y") or "s.d.", []).append(w)
+    for y in EVENTS: years.setdefault(y, [])
     keys = sorted(years, key=lambda y: sortyear({"y": y if y != "s.d." else ""}))
     rows = ""
     for y in keys:
-        items = "".join(f'<a href="{p}opere/{w["id"]}/"><img loading="lazy" src="{p}img/{w["i"][0]}" alt=""><span><span class="t">{L(esc(w["t"]), esc(w["te"]))}</span><br><span class="m">{L(esc(w["m"]), esc(w["me"]))}</span></span></a>' for w in years[y])
-        rows += f'<div class="tl-year"><h3>{esc(y)}</h3><div class="tl-items">{items}</div></div>'
-    body = f"""{head("Vita e opere — Ubaldo Rizzo", 1)}<body>
+        ev = "".join(f'<p class="tl-ev">{L(esc(a), esc(b))}</p>' for a, b in EVENTS.get(y, []))
+        items = "".join(f'<a href="{p}opere/{w["id"]}/"><img loading="lazy" src="{p}img/{cardimg(w["i"][0])}" alt=""><span><span class="t">{L(esc(w["t"]), esc(w["te"]))}</span><br><span class="m">{L(esc(w["m"]), esc(w["me"]))}</span></span></a>' for w in years[y])
+        rows += f'<div class="tl-year" id="y{esc(y)}"><h3>{esc(y)}</h3><div>{ev}{f"<div class=tl-items>{items}</div>" if items else ""}</div></div>'
+    essay = "".join(f"<p>{L(esc(a), esc(b))}</p>" for a, b in zip(ESSAY_IT, ESSAY_EN))
+    shows = "".join(f'<li><b>{y}</b> {L(esc(a), esc(b))}</li>' for y in sorted(EVENTS) for a, b in EVENTS[y] if y not in ("1931", "1964"))
+    ld = {"@context": "https://schema.org", "@type": "Person", "name": "Ubaldo Rizzo", "alternateName": "Nino Rizzo", "birthDate": "1931",
+          "birthPlace": {"@type": "Place", "name": "Cavallino, Lecce, Italia"}, "jobTitle": "Scultore",
+          "alumniOf": {"@type": "CollegeOrUniversity", "name": "Accademia di Belle Arti di Lecce"}}
+    body = f"""{head("Vita e opere — Ubaldo Rizzo", 1, "Ubaldo «Nino» Rizzo, scultore salentino nato a Cavallino nel 1931: biografia, mostre e cronologia delle opere.")}<body>
 {bar(1, "vita/")}
 <main class="page">
-  <div class="page-head"><p class="kicker">{L("Cronologia", "Chronology")}</p><h1 class="title">{L("Vita e opere", "Life and work")}</h1>
-  <p class="lead">{L("Anno dopo anno, le opere datate: dal primo bassorilievo del 1960 alle ultime sculture del 2003.", "Year by year, the dated works: from the first relief in 1960 to the last sculptures of 2003.")}</p></div>
-  <p class="note">{L("La biografia completa è in preparazione con la famiglia. Se conosci date, mostre o luoghi legati a Ubaldo Rizzo, <a href='../segnala/'>scrivici</a>.", "A full biography is being prepared with the family. If you know dates, exhibitions or places connected with Ubaldo Rizzo, <a href='../segnala/'>write to us</a>.")}</p>
+  <div class="page-head"><p class="kicker">{L("Biografia", "Biography")}</p><h1 class="title">{L("Vita e opere", "Life and work")}</h1>
+  <p class="lead">{L("Ubaldo Rizzo, per tutti Nino: scultore salentino, nato a Cavallino nel 1931.", "Ubaldo Rizzo, Nino to everyone: a sculptor from Salento, born in Cavallino in 1931.")}</p></div>
+  <section class="essay" id="martella">
+    <h2 class="sec-h">{L("Lo scultore", "The sculptor")}</h2>
+    <div class="essay-body">{essay}</div>
+    <p class="sig">— {L(SIG[0], SIG[1])}</p>
+    <p class="tr-note" lang="en">{L("", "Translated from the Italian original.")}</p>
+  </section>
+  <section class="bio-grid">
+    <div><h2 class="sec-h">{L("Note biografiche", "Biographical notes")}</h2><p>{L(esc(BIO_IT), esc(BIO_EN))}</p></div>
+    <div><h2 class="sec-h">{L("Mostre e riconoscimenti", "Exhibitions and awards")}</h2><ul class="shows">{shows}</ul></div>
+  </section>
+  <h2 class="sec-h tl-h">{L("Anno per anno", "Year by year")}</h2>
+  <p class="tl-lead">{L("La vita e le opere datate: dal primo bassorilievo del 1960 alle ultime sculture del 2003.", "His life and the dated works: from the first relief in 1960 to the last sculptures of 2003.")}</p>
   <div class="tl">{rows}</div>
+  <p class="note">{L("Conosci altre date, mostre o luoghi legati a Ubaldo Rizzo? <a href='../segnala/'>Scrivici</a>.", "Do you know other dates, exhibitions or places connected with Ubaldo Rizzo? <a href='../segnala/'>Write to us</a>.")}</p>
 </main>
+<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 {foot(1)}"""
     write("vita/index.html", body)
 
@@ -369,6 +390,11 @@ def journey():
   <div class="j-name"><h1>Ubaldo<br>Rizzo</h1><p>{L("Quarant'anni di forme nel legno d'ulivo · 1960 — 2003", "Forty years of forms in olive wood · 1960 — 2003")}</p></div>
   <div class="j-hint">{L("Scorri", "Scroll")}</div>
 </section>
+<section class="j-quote" data-tone="#0d0c0b" data-ch="intro"><blockquote>
+  <p>{L("«Con la disciplina propria dei monaci, nel silenzio del suo laboratorio, ogni giorno da oltre mezzo secolo dialoga con il legno.»", "“With a monk’s discipline, in the silence of his workshop, every day for more than half a century he has been in dialogue with the wood.”")}</p>
+  <footer>Ada Martella, 2012 · <a href="vita/#martella">{L("Leggi il testo", "Read the text")}</a></footer>
+  <p class="j-facts">{L("Ubaldo «Nino» Rizzo · Cavallino, 1931 · Accademia di Belle Arti di Lecce, 1964", "Ubaldo “Nino” Rizzo · Cavallino, 1931 · Academy of Fine Arts, Lecce, 1964")}</p>
+</blockquote></section>
 {''.join(secs)}
 <section class="j-light" data-tone="#7a5a3a" data-ch="after"><div class="bg" style="background-image:url(img/hi/h142.jpg)"></div>
   <div class="txt"><p class="j-small">{L("Fotografie 2007 — 2009", "Photographs 2007 — 2009")}</p><p class="j-line">{L("Nel cortile, al sole, il legno continua a parlare.", "In the courtyard, in the sun, the wood keeps speaking.")}</p></div></section>

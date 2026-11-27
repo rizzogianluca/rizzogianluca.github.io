@@ -1,0 +1,26 @@
+# Text supplied by the family (Nino_scultore.pdf). Italian is the original; English is our translation.
+ESSAY_IT = [
+ "Nino Rizzo è uno scultore riservato, quasi monacale, poiché da oltre cinquant’anni dà forma alle sue creature di legno senza curarsi troppo dello sguardo altrui. Non si cura di esporre e giammai di vendere il frutto del suo costante e paziente lavoro. Con la disciplina propria dei monaci, nel silenzio del suo laboratorio, ogni giorno da oltre mezzo secolo dialoga con il legno.",
+ "Nino Rizzo è profondamente salentino, circondato da foreste di ulivi ed è per questo che il legno dell’ulivo è il suo materiale prediletto. Ma non è l’unico. Ha scolpito i legni del cipresso e del cedro di cui ha seguito la crescita nel suo personale giardino fino alla loro morte naturale. Con la pazienza che contraddistingue gli scultori, i monaci e i contadini, ha atteso la lenta maturazione del legno prima di trasformarli nelle forme partorite dall’immaginazione.",
+ "Le sculture astratte di Nino Rizzo sono istantanee di figure in movimento, quasi sempre animali ma anche donne fermate nell’attimo in cui abbracciano, nuotano oppure urlano un dolore muto. Tutte le sue creature di legno e pietra, e sono tante, sono da sempre insieme a lui, non se n’è mai separato. A guardarle nel loro insieme si direbbe che le abbia scolpite per riempire il silenzio e la solitudine di cui da sempre si circonda per lavorare, da quando era un bambino e decise di non seguire la strada del padre ma quella dell’immaginazione.",
+]
+ESSAY_EN = [
+ "Nino Rizzo is a reserved sculptor, almost monastic: for more than fifty years he has been giving shape to his wooden creatures without much caring for the gaze of others. He does not seek to exhibit, and never to sell, the fruit of his constant and patient work. With a monk’s discipline, in the silence of his workshop, every day for more than half a century he has been in dialogue with the wood.",
+ "Nino Rizzo is deeply Salentine, surrounded by forests of olive trees, and that is why olive wood is his favourite material. But it is not the only one. He has carved cypress and cedar that he watched grow in his own garden until their natural death. With the patience shared by sculptors, monks and farmers, he waited for the wood to season slowly before turning it into the forms born of his imagination.",
+ "Nino Rizzo’s abstract sculptures are snapshots of figures in motion, almost always animals, but also women caught in the instant in which they embrace, swim, or cry out a silent pain. All his creatures of wood and stone, and there are many, have always stayed with him; he has never parted with them. Seen together, one would say he carved them to fill the silence and solitude he has always kept around himself in order to work, ever since he was a child and decided not to follow his father’s path but that of the imagination.",
+]
+SIG = ("Ada Martella, settembre 2012", "Ada Martella, September 2012")
+BIO_IT = "Ubaldo Rizzo, conosciuto da tutti come Nino, nasce a Cavallino nel 1931, dove tuttora risiede. Frequenta l’Istituto d’arte sotto la guida del Maestro Marcello Gennari. Dapprima studia al Magistero di Napoli, in seguito frequenta il corso di scultura dell’Accademia di Belle Arti di Lecce, dove si diploma nel 1964."
+BIO_EN = "Ubaldo Rizzo, known to everyone as Nino, was born in Cavallino in 1931, where he still lives. He attended the Istituto d’arte under the guidance of Maestro Marcello Gennari. He first studied at the Magistero in Naples, then took the sculpture course at the Academy of Fine Arts in Lecce, where he graduated in 1964."
+# year -> [(it, en)]
+EVENTS = {
+ "1931": [("Nasce a Cavallino (Lecce).", "Born in Cavallino (Lecce).")],
+ "1964": [("Si diploma in scultura all’Accademia di Belle Arti di Lecce.", "Graduates in sculpture from the Academy of Fine Arts, Lecce.")],
+ "1968": [("Realizza il bassorilievo del monumento alla Santa Croce per il Comune di Castrignano de’ Greci (Lecce).", "Makes the bas-relief of the Santa Croce monument for the town of Castrignano de’ Greci (Lecce)."),
+          ("Partecipa alla collettiva di pittori e scultori salentini nella galleria d’arte «Il Rosone» di Lecce.", "Takes part in the group show of Salento painters and sculptors at the «Il Rosone» gallery, Lecce."),
+          ("Prima collettiva d’arte a Cavallino: premiato con la coppa dell’Ente per il Turismo della Provincia di Lecce.", "First group art show in Cavallino: awarded the cup of the Provincial Tourist Board of Lecce."),
+          ("Diploma di merito al Convegno Internazionale di Artisti Contemporanei, Palazzo delle Esposizioni, Roma.", "Diploma of merit at the International Convention of Contemporary Artists, Palazzo delle Esposizioni, Rome."),
+          ("Diploma di merito per la partecipazione alla Mostra d’Arte Contemporanea, Roma.", "Diploma of merit for taking part in the Contemporary Art Exhibition, Rome.")],
+ "1969": [("Espone alla IV Mostra Annuale d’Arte Contemporanea, Roma.", "Exhibits at the 4th Annual Contemporary Art Exhibition, Rome.")],
+ "1984": [("Partecipa alla prima collettiva di pittura, scultura e grafica promossa dall’associazione culturale «Messapia».", "Takes part in the first group show of painting, sculpture and graphics organised by the «Messapia» cultural association.")],
+}
