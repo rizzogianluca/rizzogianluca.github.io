@@ -4,7 +4,8 @@
 # FLAGS: "selected" puts the entry in Selected publications; "award:Text" shows an award badge.
 # Source: CV on Overleaf (CV_NOV_2026), November 2026.
 
-J | 2026 | Laura Finarelli, Falko Dressler, Marco Ajmone Marsan, Gianluca Rizzo | Modeling and Optimization of Vehicular-Enhanced Urban RANs with In-Band Backhaul | IEEE Transactions on Vehicular Technology, to appear | |
+J | 2026 | Berk Buzcu, Laura Finarelli, Engin Zeydan, Jorge Baranda, Nikolaos Stamatiou, Nikolaos Kanakaris, Gianluca Rizzo | An Energy-Aware Multi-Domain Orchestration Architecture for Sustainable 6G Networks | Computer Communications (Elsevier), to appear | |
+J | 2026 | Laura Finarelli, Falko Dressler, Marco Ajmone Marsan, Gianluca Rizzo | Modeling and Optimization of Vehicular-Enhanced Urban RANs with In-Band Backhaul | IEEE Transactions on Vehicular Technology, early access | 10.1109/TVT.2026.3755568 |
 J | 2026 | Gianluca Rizzo, Noelia Pérez Palma, Marco Ajmone Marsan, Vincenzo Mancuso | Floating Gossip: Serverless Distributed Learning in Dynamic Scenarios | IEEE Transactions on Mobile Computing, 25(9):14513–14530 | 10.1109/TMC.2026.3682564 | selected
 J | 2026 | Nhat Nguyen, Duong Nguyen, Junae Kim, Gianluca Rizzo, Hung Nguyen | Survive and Thrive: Decentralized Multi-Agent Coordination under Attrition Risks | IEEE Transactions on Mobile Computing, 25(5):6530–6546 | 10.1109/TMC.2025.3636600 |
 J | 2025 | Gianluca Rizzo, Marco Ajmone Marsan, Christian Esposito, Biagio Boi | Green Operations of SWIPT Networks: The Role of End-User Devices | IEEE Transactions on Green Communications and Networking, 9(4):1866–1879 | 10.1109/TGCN.2025.3552557 | selected

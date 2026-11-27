@@ -197,6 +197,7 @@ q.addEventListener('input',run);chips.forEach(b=>b.addEventListener('click',()=>
 
 # ---------------------------------------------------------------- content
 NEWS = [
+    ("2026-11", "Two journal papers accepted: <a href=\"https://doi.org/10.1109/TVT.2026.3755568\">“Modeling and Optimization of Vehicular-Enhanced Urban RANs with In-Band Backhaul”</a> in <i>IEEE Transactions on Vehicular Technology</i>, and “An Energy-Aware Multi-Domain Orchestration Architecture for Sustainable 6G Networks”, the journal version of our WONS 2026 paper (UNITY-6G), in <i>Computer Communications</i>."),
     ("2026-09", "<a href=\"https://doi.org/10.1109/TMC.2026.3682564\">“Floating Gossip: Serverless Distributed Learning in Dynamic Scenarios”</a> is published in <i>IEEE Transactions on Mobile Computing</i>."),
     ("2026-06", "Papers presented at ICAPS 2026 on <a href=\"https://doi.org/10.1609/icaps.v36i1.42854\">robust decentralised multi-agent planning</a> and at EuCNC &amp; 6G Summit 2026 on the <a href=\"https://doi.org/10.1109/EuCNC/6GSummit68295.2026.11577429\">UNITY-6G architecture</a>."),
     ("2026-03", "I was General Chair of <a href=\"https://2026.wons-conference.org/\">IEEE WONS 2026</a>, held in Crans-Montana, Switzerland, on 2–4 March."),
@@ -233,7 +234,7 @@ THEMES = [
 
 KEY_PAPERS = {
     "sustainable-6g": ["Green Operations of SWIPT Networks: The Role of End-User Devices",
-                       "Energy-Aware Multi-Domain Orchestration Architecture for Sustainable 6G Networks",
+                       "An Energy-Aware Multi-Domain Orchestration Architecture for Sustainable 6G Networks",
                        "Sharing is Caring: Analysis of Hybrid Network Sharing Strategies for Energy Efficient Multi-Operator Cellular Systems"],
     "moving-networks": ["Modeling and Optimization of Vehicular-Enhanced Urban RANs with In-Band Backhaul",
                         "Mobile Networks on the Move: Optimizing Moving Base Stations Dynamics in Urban Scenarios",
@@ -502,7 +503,7 @@ SP = {
        summary="Orchestrating multi-domain 6G networks to cut their energy footprint, with digital twins.",
        description=["This PhD studies how to orchestrate 6G networks spanning several technological domains so that they use less energy, and how digital twins of the network can support these decisions. It is carried out within the Horizon Europe project UNITY-6G."],
        work=["Energy-aware multi-domain orchestration architectures", "Digital twins for intent-driven, sustainable network management"],
-       related=["Energy-Aware Multi-Domain Orchestration Architecture for Sustainable 6G Networks", "Modular Multi-Domain Digital Twin Architecture: Sustainable Intent-Driven 6G Management"], theme="sustainable-6g"),
+       related=["An Energy-Aware Multi-Domain Orchestration Architecture for Sustainable 6G Networks", "Modular Multi-Domain Digital Twin Architecture: Sustainable Intent-Driven 6G Management"], theme="sustainable-6g"),
   dict(slug="phd-6g-wireless-2024", status="past", title="6G wireless communications",
        context="PhD student / research assistant position · HES-SO Valais-Wallis · 2024",
        summary="PhD student / research assistant position at HES-SO Valais-Wallis, 2024.",
